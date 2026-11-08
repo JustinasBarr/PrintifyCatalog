@@ -60,8 +60,8 @@ struct ProductDetailViewModelTests {
         #expect(await products.requestedIDs == [product.id, product.id])
     }
 
-    /// After "Try again" the facts go back to their placeholders, so the tap visibly did something.
-    @Test func retryShowsThePlaceholdersWhileItAsksAgain() async {
+    /// "Try again" keeps the failure on screen, its button saying "Trying…", until the answer: no placeholder flash.
+    @Test func retryKeepsTheFailureWhileItAsksAgain() async {
         let request = PendingAnswer<Product>()
         let viewModel = makeViewModel { _ throws(APIError) in try await request.value() }
         let firstLoad = Task { await viewModel.load() }
@@ -71,7 +71,9 @@ struct ProductDetailViewModelTests {
 
         let retry = Task { await viewModel.retry() }
         await request.asked()
-        #expect(viewModel.state == State(summary: summary, product: .loading))
+        #expect(
+            viewModel.state == State(summary: summary, product: .failed(APIError.offline.message), isRetrying: true)
+        )
         await request.respond(.success(product))
         await retry.value
         #expect(viewModel.state == State(summary: summary, product: .loaded(product)))
@@ -312,32 +314,6 @@ private actor ScriptedProducts {
         requestedIDs.append(id)
         guard !results.isEmpty else { throw .transport("No scripted answer for request \(requestedIDs.count)") }
         return try results.removeFirst().get()
-    }
-}
-
-/// A request that waits until the test answers it, so a test can look at the page mid-request.
-private actor PendingAnswer<Value: Sendable> {
-    private var answer: CheckedContinuation<Result<Value, APIError>, Never>?
-    private var arrival: CheckedContinuation<Void, Never>?
-
-    func value() async throws(APIError) -> Value {
-        let result = await withCheckedContinuation { continuation in
-            answer = continuation
-            arrival?.resume()
-            arrival = nil
-        }
-        return try result.get()
-    }
-
-    /// Returns once the page has sent the request.
-    func asked() async {
-        guard answer == nil else { return }
-        await withCheckedContinuation { arrival = $0 }
-    }
-
-    func respond(_ result: Result<Value, APIError>) {
-        answer?.resume(returning: result)
-        answer = nil
     }
 }
 

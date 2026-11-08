@@ -71,8 +71,9 @@ extension Color {
     /// Text on an `action` fill. White fails on the light dark-mode `action` (2.6:1), so dark mode uses the
     /// ground: 7.6:1. Light: 6.6:1.
     public static let onAction = Color(light: 0xFFFFFF, dark: 0x0B0D12)
-    /// The rating star. It sits next to the number it stands for, so it is decoration, not the signal.
-    public static let rating = Color(light: 0xF2A20C, dark: 0xFFC24D)
+    /// The rating star, always next to the number it stands for. Passes 3:1 for a graphic on the ground in both
+    /// appearances.
+    public static let rating = Color(light: 0xC98208, dark: 0xF5B544)
     public static let skeleton = Color(light: 0xE7E9EE, dark: 0x232731)
 
     /// Stock colours, always next to words and a count, never on their own. Each passes 4.5:1 on ground,

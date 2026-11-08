@@ -41,3 +41,29 @@ extension Product.Summary {
 func samplePage(skip: Int, count: Int, total: Int) -> Page<Product.Summary> {
     Page(items: (skip..<skip + count).map { Product.Summary.sample(id: $0) }, total: total, skip: skip, limit: count)
 }
+
+/// A request that waits until the test answers it, so a test can look at the page mid-request.
+actor PendingAnswer<Value: Sendable> {
+    private var answer: CheckedContinuation<Result<Value, APIError>, Never>?
+    private var arrival: CheckedContinuation<Void, Never>?
+
+    func value() async throws(APIError) -> Value {
+        let result = await withCheckedContinuation { continuation in
+            answer = continuation
+            arrival?.resume()
+            arrival = nil
+        }
+        return try result.get()
+    }
+
+    /// Returns once the page has sent the request.
+    func asked() async {
+        guard answer == nil else { return }
+        await withCheckedContinuation { arrival = $0 }
+    }
+
+    func respond(_ result: Result<Value, APIError>) {
+        answer?.resume(returning: result)
+        answer = nil
+    }
+}

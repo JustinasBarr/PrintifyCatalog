@@ -6,6 +6,7 @@ struct LoadFailedView: View {
     let title: String
     let message: String
     let retryIdentifier: String
+    var isRetrying = false
     let retry: () async -> Void
 
     var body: some View {
@@ -18,15 +19,31 @@ struct LoadFailedView: View {
         } description: {
             Text(message).foregroundStyle(Color.ink2)
         } actions: {
-            Button("Try again") { Task { await retry() } }
-                .font(.subheadline.weight(.semibold))
-                .buttonStyle(.borderedProminent)
-                .buttonBorderShape(.capsule)
-                .controlSize(.large)
-                .tint(Color.action)
-                .foregroundStyle(Color.onAction)
-                .accessibilityIdentifier(retryIdentifier)
+            Button {
+                Task { await retry() }
+            } label: {
+                RetryLabel(isRetrying: isRetrying)
+            }
+            .font(.subheadline.weight(.semibold))
+            .disabled(isRetrying)
+            .buttonStyle(.borderedProminent)
+            .buttonBorderShape(.capsule)
+            .controlSize(.large)
+            .tint(Color.action)
+            .foregroundStyle(Color.onAction)
+            .accessibilityIdentifier(retryIdentifier)
         }
+    }
+}
+
+/// "Try again", or "Trying…" while the request runs, in the longer one's width so the button keeps its size.
+struct RetryLabel: View {
+    let isRetrying: Bool
+
+    var body: some View {
+        Text("Try again")
+            .hidden()
+            .overlay { Text(isRetrying ? "Trying…" : "Try again") }
     }
 }
 

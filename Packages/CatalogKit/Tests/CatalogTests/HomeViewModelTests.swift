@@ -120,6 +120,32 @@ struct HomeViewModelTests {
         #expect(viewModel.state == shownState())
     }
 
+    /// "Try again" keeps the failure on screen, its button saying "Trying…", until the answer: no skeleton flash.
+    @Test func retryKeepsTheFailureWhileItAsksAgain() async {
+        let categories = PendingAnswer<[Product.Category]>()
+        var repository = homeRepository()
+        repository.onCategories = { () async throws(APIError) in try await categories.value() }
+        let viewModel = HomeViewModel(repository: repository)
+        let firstLoad = Task { await viewModel.load() }
+        await categories.asked()
+        await categories.respond(.failure(.offline))
+        await firstLoad.value
+        var failed = State(
+            categories: .failed(APIError.offline.message),
+            attention: .loaded(Attention(products: [], mayHaveMore: false)),
+            productCount: 194
+        )
+        #expect(viewModel.state == failed)
+
+        let retry = Task { await viewModel.retry() }
+        await categories.asked()
+        failed.isRetrying = true
+        #expect(viewModel.state == failed)
+        await categories.respond(.success([beauty, groceries]))
+        await retry.value
+        #expect(viewModel.state == shownState())
+    }
+
     @Test func retryShelfLoadsAFailedShelf() async {
         let shelfCalls = CallCount()
         var repository = homeRepository()

@@ -84,7 +84,7 @@ struct ProductDetailView: View {
                 ProductDetails(product: product, reviews: state.reviews, copy: copy)
                     .transition(.opacity)
             case .failed(let message):
-                LoadFailedCard(message: message) {
+                LoadFailedCard(message: message, isRetrying: state.isRetrying) {
                     Task { await viewModel.retry() }
                 }
                 .transition(.opacity)
@@ -293,6 +293,7 @@ private struct ProductDescription: View {
 /// standard phone the whole card, button included, ends above the Restock bar; at accessibility sizes it stacks.
 private struct LoadFailedCard: View {
     let message: String
+    let isRetrying: Bool
     let retry: () -> Void
     @Environment(\.dynamicTypeSize) private var typeSize
 
@@ -312,7 +313,7 @@ private struct LoadFailedCard: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             Button(action: retry) {
-                Text("Try again")
+                RetryLabel(isRetrying: isRetrying)
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(Color.action)
                     .padding(.horizontal, Spacing.l)
@@ -320,6 +321,7 @@ private struct LoadFailedCard: View {
                     .background(Color.action.opacity(0.12), in: .capsule)
             }
             .buttonStyle(.pressable)
+            .disabled(isRetrying)
             .fixedSize()
             .accessibilityIdentifier("detail-button-retry")
         }

@@ -18,6 +18,8 @@ final class HomeViewModel {
         /// The chosen category chips, in chip order. None shows the whole catalog, one shows that category's grid
         /// in place, more show only their shelves.
         var selectedCategories: [Product.Category] = []
+        /// "Try again" is asking again; the failure stays on screen until the answer.
+        var isRetrying = false
     }
 
     /// The products that are low or out of stock, lowest stock first.
@@ -45,7 +47,7 @@ final class HomeViewModel {
     }
 
     /// The screen appeared: loads unless the categories are already shown. A cancelled request shows what was
-    /// shown before, so a cancelled "Try again" brings the error and its button back.
+    /// shown before.
     func load() async {
         guard state.categories.value == nil else { return }
         let shown = state
@@ -55,8 +57,13 @@ final class HomeViewModel {
         show(await categories, await attention, over: shown)
     }
 
+    /// Asks again under the failure, so no skeleton flashes before the answer. A cancelled request leaves the failure.
     func retry() async {
-        await load()
+        state.isRetrying = true
+        async let categories = categoriesResult()
+        async let attention = attentionResult()
+        show(await categories, await attention, over: state)
+        state.isRetrying = false
     }
 
     /// Reloads the categories, the attention shelf, every shelf that loaded or failed and the chosen category's

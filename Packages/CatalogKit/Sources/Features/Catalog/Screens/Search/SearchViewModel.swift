@@ -157,4 +157,6 @@ extension SearchViewModel: PagedProducts {
     }
 
     var nextPage: NextPage { state.nextPage }
+    /// A search's "Try again" starts again from placeholders, like a new search.
+    var isRetrying: Bool { false }
 }

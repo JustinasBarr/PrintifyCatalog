@@ -11,6 +11,8 @@ final class ProductDetailViewModel {
         /// What the list showed.
         let summary: Product.Summary
         var product: Loadable<Product> = .loading
+        /// "Try again" is asking again; the failure stays on screen until the answer.
+        var isRetrying = false
         /// The stock the merchant set on this screen, once the server has confirmed it.
         var restockedStock: Int?
         /// The restock sheet, while it is open.
@@ -69,11 +71,19 @@ final class ProductDetailViewModel {
     /// Fetches the full product. A screen that appears again keeps the product it already has.
     func load() async {
         guard state.product.value == nil else { return }
+        let shown = state.product
+        state.product = .loading
         await fetchProduct()
+        // Every answer but a cancelled one replaces the placeholders.
+        if state.product == .loading { state.product = shown }
     }
 
+    /// Asks again under the failure, so no placeholder flashes before the answer. A cancelled request leaves the
+    /// failure.
     func retry() async {
+        state.isRetrying = true
         await fetchProduct()
+        state.isRetrying = false
     }
 
     func startRestock() {
@@ -103,12 +113,10 @@ final class ProductDetailViewModel {
     }
 
     private func fetchProduct() async {
-        let previous = state.product
-        state.product = .loading
         do throws(APIError) {
             state.product = .loaded(try await loadProduct(state.summary.id))
         } catch .cancelled {
-            state.product = previous
+            return
         } catch {
             state.product = .failed(error.message)
         }

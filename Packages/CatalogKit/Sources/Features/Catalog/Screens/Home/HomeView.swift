@@ -14,7 +14,8 @@ struct HomeView: View {
                 LoadFailedView(
                     title: "Couldn't load your catalog",
                     message: message,
-                    retryIdentifier: "home-button-retry"
+                    retryIdentifier: "home-button-retry",
+                    isRetrying: viewModel.state.isRetrying
                 ) {
                     await viewModel.retry()
                 }

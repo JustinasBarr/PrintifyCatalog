@@ -5,6 +5,8 @@ protocol PagedProducts: AnyObject {
     var products: Loadable<[Product.Summary]> { get }
     /// Only while products are shown: whether the page after them is loading or failed.
     var nextPage: NextPage { get }
+    /// "Try again" is asking for the first page again, under the failure.
+    var isRetrying: Bool { get }
     /// Tries the request that failed again: the first page or the next one.
     func retry() async
     func itemAppeared(at index: Int) async

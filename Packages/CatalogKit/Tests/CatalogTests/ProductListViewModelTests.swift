@@ -18,6 +18,23 @@ struct ProductListViewModelTests {
         #expect(await requests.pages == [PageRequest(limit: 12, skip: 0)])
     }
 
+    /// "Try again" keeps the failure on screen, its button saying "Trying…", until the answer: no skeleton flash.
+    @Test func retryKeepsTheFailureWhileItAsksAgain() async {
+        let request = PendingAnswer<Page<Product.Summary>>()
+        let viewModel = ProductListViewModel { _ throws(APIError) in try await request.value() }
+        let firstLoad = Task { await viewModel.load() }
+        await request.asked()
+        await request.respond(.failure(.offline))
+        await firstLoad.value
+
+        let retry = Task { await viewModel.retry() }
+        await request.asked()
+        #expect(viewModel.state == State(products: .failed(APIError.offline.message), isRetrying: true))
+        await request.respond(.success(samplePage(skip: 0, count: 12, total: 194)))
+        await retry.value
+        #expect(viewModel.state == State(products: .loaded(samples(0..<12))))
+    }
+
     @Test func aFailedFirstPageShowsItsMessageAndRetryLoadsIt() async {
         let requests = Requests()
         let viewModel = ProductListViewModel { page async throws(APIError) in

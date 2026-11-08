@@ -15,6 +15,8 @@ final class ProductListViewModel {
         var refreshFailure: String?
         /// What the sort sheet picked.
         var sortFilter = SortFilter()
+        /// "Try again" is asking for the first page again; the failure stays on screen until the answer.
+        var isRetrying = false
     }
 
     /// What the sort sheet picked: an order for the server, and whether only low and out-of-stock products show.
@@ -55,7 +57,7 @@ final class ProductListViewModel {
     }
 
     /// The screen appeared: loads the first page unless products are already shown. A cancelled request shows
-    /// what was shown before, so a cancelled "Try again" brings the error and its button back.
+    /// what was shown before.
     func load() async {
         guard state.products.value == nil else { return }
         let shown = state.products
@@ -74,7 +76,7 @@ final class ProductListViewModel {
         if state.refreshFailure != nil {
             await refresh()
         } else if state.products.value == nil {
-            await load()
+            await retryFirstPage()
         } else {
             await loadNextPage()
         }
@@ -123,6 +125,13 @@ final class ProductListViewModel {
         case .failure(let error):
             state.nextPage = .failed(error.message)
         }
+    }
+
+    /// Asks again under the failure, so no skeleton flashes before the answer. A cancelled request leaves the failure.
+    private func retryFirstPage() async {
+        state.isRetrying = true
+        await loadFirstPage()
+        state.isRetrying = false
     }
 
     /// Starts the list again in a new order or filter, from a skeleton. A cancelled request shows what was shown.
@@ -218,6 +227,7 @@ final class ProductListViewModel {
 extension ProductListViewModel: PagedProducts {
     var products: Loadable<[Product.Summary]> { state.products }
     var nextPage: NextPage { state.nextPage }
+    var isRetrying: Bool { state.isRetrying }
 }
 
 extension Product.Sort {

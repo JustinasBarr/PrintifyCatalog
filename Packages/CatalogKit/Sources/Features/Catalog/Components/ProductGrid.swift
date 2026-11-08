@@ -28,7 +28,12 @@ struct ProductGrid<Products: PagedProducts>: View {
             grid { ForEach(0..<6, id: \.self) { _ in ProductCellSkeleton() } }
                 .transition(.opacity)
         case .failed(let message):
-            LoadFailedView(title: "Couldn't load products", message: message, retryIdentifier: retryIdentifier) {
+            LoadFailedView(
+                title: "Couldn't load products",
+                message: message,
+                retryIdentifier: retryIdentifier,
+                isRetrying: viewModel.isRetrying
+            ) {
                 await viewModel.retry()
             }
             .containerRelativeFrame(.vertical) { height, _ in height * 0.7 }
