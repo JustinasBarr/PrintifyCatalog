@@ -5,17 +5,19 @@ import SwiftUI
 public struct CatalogRootView: View {
     private let feature: CatalogFeature
     @State private var home: HomeViewModel
+    @State private var search: SearchViewModel
 
     public init(feature: CatalogFeature) {
         self.feature = feature
-        // SwiftUI keeps the first value, so Home keeps its state for the app's life.
+        // SwiftUI keeps the first value, so Home and its search keep their state for the app's life.
         _home = State(initialValue: feature.home())
+        _search = State(initialValue: feature.search())
     }
 
     public var body: some View {
         @Bindable var router = feature.router
         NavigationStack(path: $router.path) {
-            HomeView(viewModel: home)
+            HomeView(viewModel: home, search: search)
                 .navigationDestination(for: CatalogRouter.Route.self) { route in
                     ProductListView(list: route, viewModel: feature.productList(route))
                 }

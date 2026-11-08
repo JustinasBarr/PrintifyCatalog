@@ -23,14 +23,12 @@ public final class CatalogFeature {
     func productList(_ route: CatalogRouter.Route) -> ProductListViewModel {
         switch route {
         case .category(let category):
-            ProductListViewModel { [repository] page throws(APIError) in
-                try await repository.products(inCategory: category.slug, page, sortedBy: nil)
+            ProductListViewModel { [repository] page, sort throws(APIError) in
+                try await repository.products(inCategory: category.slug, page, sortedBy: sort)
             }
         case .attention:
-            // The API cannot filter by availability: pages come sorted by stock and the list keeps the rows
-            // that need attention.
-            ProductListViewModel(keeping: \.needsAttention) { [repository] page throws(APIError) in
-                try await repository.products(page, sortedBy: .stockLowFirst)
+            ProductListViewModel(alwaysNeedsAttention: true) { [repository] page, sort throws(APIError) in
+                try await repository.products(page, sortedBy: sort)
             }
         }
     }
@@ -44,5 +42,11 @@ public final class CatalogFeature {
                 try await repository.updateStock(id: id, stock: stock)
             }
         )
+    }
+
+    func search() -> SearchViewModel {
+        SearchViewModel { [repository] text, page throws(APIError) in
+            try await repository.search(text, page, sortedBy: nil)
+        }
     }
 }

@@ -105,12 +105,18 @@ private struct ChosenCategoryGrid: View {
         VStack(alignment: .leading, spacing: 0) {
             ProductShelf.Header(title: category.name, count: count.map { "\($0)" })
             ProductGrid(
-                list: .category(category),
                 viewModel: list,
                 screen: "home",
-                retryIdentifier: "home-button-retryGrid"
+                retryIdentifier: "home-button-retryGrid",
+                empty: EmptyListView(
+                    title: "No products yet",
+                    message: "This category has no products.",
+                    systemImage: "shippingbox",
+                    identifier: "home-text-empty"
+                )
             )
             .padding(.horizontal, Spacing.l)
+            .task { await list.load() }
         }
         .padding(.top, Spacing.m)
         .accessibilityElement(children: .contain)

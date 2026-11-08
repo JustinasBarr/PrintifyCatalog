@@ -1,9 +1,11 @@
 import DesignSystem
 import SwiftUI
 
-/// Home: the search field, the categories as chips that filter Home in place, then what the chips chose.
+/// Home: the search field, the categories as chips that filter Home in place, then what the chips chose. While
+/// the field has words, its matches show in place of the chips and everything below them.
 struct HomeView: View {
     let viewModel: HomeViewModel
+    let search: SearchViewModel
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
@@ -18,9 +20,18 @@ struct HomeView: View {
                 }
                 .containerRelativeFrame(.vertical) { height, _ in height * 0.8 }
             } else {
-                sections
+                VStack(spacing: 0) {
+                    SearchField(viewModel: search, productCount: viewModel.state.productCount)
+                        .padding(.horizontal, Spacing.l)
+                    if search.state.results == nil {
+                        sections
+                    } else {
+                        SearchResults(viewModel: search, productCount: viewModel.state.productCount)
+                    }
+                }
             }
         }
+        .scrollDismissesKeyboard(.immediately)
         .background(Color.ground)
         .navigationTitle("Products")
         .navigationBarTitleDisplayMode(.inline)
@@ -30,8 +41,6 @@ struct HomeView: View {
 
     private var sections: some View {
         VStack(alignment: .leading, spacing: 0) {
-            SearchField(productCount: viewModel.state.productCount)
-                .padding(.horizontal, Spacing.l)
             if let failure = viewModel.state.refreshFailure {
                 RefreshFailedNotice(message: failure, retryIdentifier: "home-button-retryRefresh") {
                     await viewModel.refresh()
@@ -46,33 +55,6 @@ struct HomeView: View {
         }
         .padding(.bottom, Spacing.xxl)
         .animation(.strongEaseOut, value: viewModel.state.refreshFailure)
-    }
-}
-
-/// Where search will be. The API searches names only, and search results come in a later step, so the field
-/// is shown with the catalog's size but takes no input yet.
-private struct SearchField: View {
-    let productCount: Int?
-
-    var body: some View {
-        HStack(spacing: Spacing.s) {
-            Image(systemName: "magnifyingglass")
-                .foregroundStyle(Color.ink)
-                .accessibilityHidden(true)
-            TextField(prompt, text: .constant(""))
-                .disabled(true)
-                .accessibilityIdentifier("home-field-search")
-        }
-        .font(.body)
-        .padding(.horizontal, Spacing.m)
-        .frame(minHeight: 44)
-        .background(Color.ground, in: .capsule)
-        .overlay { Capsule().strokeBorder(Color.field, lineWidth: 1) }
-        .shadow(color: .black.opacity(0.06), radius: 8, y: 2)
-    }
-
-    private var prompt: String {
-        productCount.map { "Search \($0) products" } ?? "Search products"
     }
 }
 

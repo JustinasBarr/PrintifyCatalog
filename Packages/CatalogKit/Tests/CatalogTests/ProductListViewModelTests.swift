@@ -185,6 +185,27 @@ struct ProductListViewModelTests {
         #expect(viewModel.state == State(products: .loaded(lowAndOut)))
         #expect(await requests.pages == [PageRequest(limit: 12, skip: 0), PageRequest(limit: 24, skip: 12)])
     }
+
+    /// The attention list already shows lowest stock first, so picking that order changes nothing and asks nothing.
+    @Test func pickingLowestStockOnTheAttentionListChangesNothing() async {
+        let requests = Requests()
+        let rows = (0..<12).map(row)
+        var repository = FakeProductRepository()
+        repository.onProducts = { page, sort async throws(APIError) in
+            guard sort == .stockLowFirst else { throw APIError.invalidRequest }
+            await requests.record(page)
+            return Page(items: rows, total: 30, skip: page.skip, limit: page.limit)
+        }
+        let viewModel = CatalogFeature(repository: repository).productList(.attention)
+        await viewModel.load()
+
+        await viewModel.sort(by: .stockLowFirst)
+
+        let lowAndOut = rows.filter { !$0.id.isMultiple(of: 3) }
+        #expect(viewModel.state == State(products: .loaded(lowAndOut)))
+        #expect(viewModel.shownOrder == .stockLowFirst)
+        #expect(await requests.pages == [PageRequest(limit: 12, skip: 0)])
+    }
 }
 
 /// Samples with these ids, as `samplePage` makes them.

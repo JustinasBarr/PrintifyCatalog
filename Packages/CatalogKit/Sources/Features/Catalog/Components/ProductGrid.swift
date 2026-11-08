@@ -3,13 +3,14 @@ import SwiftUI
 
 /// A list's products as a 2-column grid that pages as it scrolls, with its loading, failed and empty states and the
 /// paging footer. One column at accessibility text sizes, so names and prices stay readable. Drawn inside a scroll
-/// view: the "See all" screen and Home's chosen category.
-struct ProductGrid: View {
-    let list: CatalogRouter.Route
-    let viewModel: ProductListViewModel
+/// view: the "See all" screen, Home's chosen category and Home's search.
+struct ProductGrid<Products: PagedProducts>: View {
+    let viewModel: Products
     /// The first part of every identifier, the screen: `<screen>-cell-<id>`, `<screen>-footer-loading`.
     let screen: String
     let retryIdentifier: String
+    /// What the list says when it has no products.
+    let empty: EmptyListView
     @Environment(CatalogRouter.self) private var router
     @Environment(\.dynamicTypeSize) private var typeSize
     @Namespace private var zoom
@@ -18,12 +19,11 @@ struct ProductGrid: View {
         VStack(spacing: Spacing.l) {
             content
         }
-        .task { await viewModel.load() }
     }
 
     @ViewBuilder
     private var content: some View {
-        switch viewModel.state.products {
+        switch viewModel.products {
         case .loading:
             grid { ForEach(0..<6, id: \.self) { _ in ProductCellSkeleton() } }
                 .transition(.opacity)
@@ -44,7 +44,7 @@ struct ProductGrid: View {
     private func grid(@ViewBuilder _ cells: () -> some View) -> some View {
         LazyVGrid(columns: columns, alignment: .leading, spacing: Spacing.l) { cells() }
             // Skeleton and cells have one size, so the swap is a cross-fade and nothing moves.
-            .animation(.strongEaseOut, value: viewModel.state.products.value == nil)
+            .animation(.strongEaseOut, value: viewModel.products.value == nil)
     }
 
     private var columns: [GridItem] {
@@ -69,7 +69,7 @@ struct ProductGrid: View {
 
     @ViewBuilder
     private var footer: some View {
-        switch viewModel.state.nextPage {
+        switch viewModel.nextPage {
         case .idle:
             EmptyView()
         case .loading:
@@ -91,25 +91,6 @@ struct ProductGrid: View {
                     .accessibilityIdentifier(retryIdentifier)
             }
             .frame(maxWidth: .infinity, minHeight: 64)
-        }
-    }
-
-    private var empty: some View {
-        switch list {
-        case .category:
-            EmptyListView(
-                title: "No products yet",
-                message: "This category has no products.",
-                systemImage: "shippingbox",
-                identifier: "\(screen)-text-empty"
-            )
-        case .attention:
-            EmptyListView(
-                title: "Nothing needs attention",
-                message: "Every product is in stock.",
-                systemImage: "checkmark.circle",
-                identifier: "\(screen)-text-empty"
-            )
         }
     }
 }

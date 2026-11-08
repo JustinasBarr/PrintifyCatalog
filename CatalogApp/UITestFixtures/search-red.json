@@ -1,0 +1,143 @@
+{
+  "products": [
+    {
+      "id": 4,
+      "title": "Red Lipstick",
+      "price": 12.99,
+      "discountPercentage": 12.16,
+      "rating": 4.36,
+      "stock": 91,
+      "availabilityStatus": "In Stock",
+      "brand": "Chic Cosmetics",
+      "category": "beauty",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/beauty/red-lipstick/thumbnail.webp"
+    },
+    {
+      "id": 5,
+      "title": "Red Nail Polish",
+      "price": 8.99,
+      "discountPercentage": 11.44,
+      "rating": 4.32,
+      "stock": 79,
+      "availabilityStatus": "In Stock",
+      "brand": "Nail Couture",
+      "category": "beauty",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/beauty/red-nail-polish/thumbnail.webp"
+    },
+    {
+      "id": 17,
+      "title": "Beef Steak",
+      "price": 12.99,
+      "discountPercentage": 9.61,
+      "rating": 4.47,
+      "stock": 86,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/beef-steak/thumbnail.webp"
+    },
+    {
+      "id": 23,
+      "title": "Eggs",
+      "price": 2.99,
+      "discountPercentage": 11.05,
+      "rating": 2.53,
+      "stock": 9,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/eggs/thumbnail.webp"
+    },
+    {
+      "id": 37,
+      "title": "Red Onions",
+      "price": 1.99,
+      "discountPercentage": 9.9,
+      "rating": 4.2,
+      "stock": 82,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/red-onions/thumbnail.webp"
+    },
+    {
+      "id": 50,
+      "title": "Black Whisk",
+      "price": 9.99,
+      "discountPercentage": 10.24,
+      "rating": 3.9,
+      "stock": 73,
+      "availabilityStatus": "In Stock",
+      "category": "kitchen-accessories",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/kitchen-accessories/black-whisk/thumbnail.webp"
+    },
+    {
+      "id": 55,
+      "title": "Egg Slicer",
+      "price": 6.99,
+      "discountPercentage": 14.76,
+      "rating": 3.09,
+      "stock": 40,
+      "availabilityStatus": "In Stock",
+      "category": "kitchen-accessories",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/kitchen-accessories/egg-slicer/thumbnail.webp"
+    },
+    {
+      "id": 57,
+      "title": "Fine Mesh Strainer",
+      "price": 9.99,
+      "discountPercentage": 3.5,
+      "rating": 3.04,
+      "stock": 85,
+      "availabilityStatus": "In Stock",
+      "category": "kitchen-accessories",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/kitchen-accessories/fine-mesh-strainer/thumbnail.webp"
+    },
+    {
+      "id": 63,
+      "title": "Kitchen Sieve",
+      "price": 7.99,
+      "discountPercentage": 18.91,
+      "rating": 3.09,
+      "stock": 68,
+      "availabilityStatus": "In Stock",
+      "category": "kitchen-accessories",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/kitchen-accessories/kitchen-sieve/thumbnail.webp"
+    },
+    {
+      "id": 70,
+      "title": "Red Tongs",
+      "price": 6.99,
+      "discountPercentage": 14.52,
+      "rating": 4.42,
+      "stock": 82,
+      "availabilityStatus": "In Stock",
+      "category": "kitchen-accessories",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/kitchen-accessories/red-tongs/thumbnail.webp"
+    },
+    {
+      "id": 88,
+      "title": "Nike Air Jordan 1 Red And Black",
+      "price": 149.99,
+      "discountPercentage": 4.12,
+      "rating": 4.77,
+      "stock": 7,
+      "availabilityStatus": "In Stock",
+      "brand": "Nike",
+      "category": "mens-shoes",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/mens-shoes/nike-air-jordan-1-red-and-black/thumbnail.webp"
+    },
+    {
+      "id": 91,
+      "title": "Sports Sneakers Off White & Red",
+      "price": 119.99,
+      "discountPercentage": 4.97,
+      "rating": 4.77,
+      "stock": 17,
+      "availabilityStatus": "In Stock",
+      "brand": "Off White",
+      "category": "mens-shoes",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/mens-shoes/sports-sneakers-off-white-&-red/thumbnail.webp"
+    }
+  ],
+  "total": 18,
+  "skip": 0,
+  "limit": 12
+}

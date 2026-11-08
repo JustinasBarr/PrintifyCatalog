@@ -1,0 +1,139 @@
+{
+  "products": [
+    {
+      "id": 31,
+      "title": "Lemon",
+      "price": 0.79,
+      "discountPercentage": 9.7,
+      "rating": 3.53,
+      "stock": 31,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/lemon/thumbnail.webp"
+    },
+    {
+      "id": 26,
+      "title": "Green Chili Pepper",
+      "price": 0.99,
+      "discountPercentage": 1,
+      "rating": 3.66,
+      "stock": 3,
+      "availabilityStatus": "Low Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/green-chili-pepper/thumbnail.webp"
+    },
+    {
+      "id": 42,
+      "title": "Water",
+      "price": 0.99,
+      "discountPercentage": 14.92,
+      "rating": 4.96,
+      "stock": 53,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/water/thumbnail.webp"
+    },
+    {
+      "id": 25,
+      "title": "Green Bell Pepper",
+      "price": 1.29,
+      "discountPercentage": 0.16,
+      "rating": 3.25,
+      "stock": 33,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/green-bell-pepper/thumbnail.webp"
+    },
+    {
+      "id": 21,
+      "title": "Cucumber",
+      "price": 1.49,
+      "discountPercentage": 0.16,
+      "rating": 4.07,
+      "stock": 84,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/cucumber/thumbnail.webp"
+    },
+    {
+      "id": 16,
+      "title": "Apple",
+      "price": 1.99,
+      "discountPercentage": 12.62,
+      "rating": 4.19,
+      "stock": 8,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/apple/thumbnail.webp"
+    },
+    {
+      "id": 37,
+      "title": "Red Onions",
+      "price": 1.99,
+      "discountPercentage": 9.9,
+      "rating": 4.2,
+      "stock": 82,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/red-onions/thumbnail.webp"
+    },
+    {
+      "id": 39,
+      "title": "Soft Drinks",
+      "price": 1.99,
+      "discountPercentage": 17.48,
+      "rating": 4.75,
+      "stock": 53,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/soft-drinks/thumbnail.webp"
+    },
+    {
+      "id": 35,
+      "title": "Potatoes",
+      "price": 2.29,
+      "discountPercentage": 5.38,
+      "rating": 4.81,
+      "stock": 13,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/potatoes/thumbnail.webp"
+    },
+    {
+      "id": 30,
+      "title": "Kiwi",
+      "price": 2.49,
+      "discountPercentage": 15.22,
+      "rating": 4.93,
+      "stock": 99,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/kiwi/thumbnail.webp"
+    },
+    {
+      "id": 41,
+      "title": "Tissue Paper Box",
+      "price": 2.49,
+      "discountPercentage": 13.28,
+      "rating": 2.69,
+      "stock": 86,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/tissue-paper-box/thumbnail.webp"
+    },
+    {
+      "id": 23,
+      "title": "Eggs",
+      "price": 2.99,
+      "discountPercentage": 11.05,
+      "rating": 2.53,
+      "stock": 9,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/eggs/thumbnail.webp"
+    }
+  ],
+  "total": 27,
+  "skip": 0,
+  "limit": 12
+}
