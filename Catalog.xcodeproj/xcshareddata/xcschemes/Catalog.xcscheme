@@ -11,6 +11,22 @@
    <TestAction buildConfiguration = "Debug" selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB" shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference skipped = "NO" parallelizable = "NO">
+            <BuildableReference BuildableIdentifier = "primary" BlueprintIdentifier = "NetworkingTests" BuildableName = "NetworkingTests" BlueprintName = "NetworkingTests" ReferencedContainer = "container:Packages/CatalogKit">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference skipped = "NO" parallelizable = "NO">
+            <BuildableReference BuildableIdentifier = "primary" BlueprintIdentifier = "ImagesTests" BuildableName = "ImagesTests" BlueprintName = "ImagesTests" ReferencedContainer = "container:Packages/CatalogKit">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference skipped = "NO" parallelizable = "NO">
+            <BuildableReference BuildableIdentifier = "primary" BlueprintIdentifier = "PersistenceTests" BuildableName = "PersistenceTests" BlueprintName = "PersistenceTests" ReferencedContainer = "container:Packages/CatalogKit">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference skipped = "NO" parallelizable = "NO">
+            <BuildableReference BuildableIdentifier = "primary" BlueprintIdentifier = "CatalogTests" BuildableName = "CatalogTests" BlueprintName = "CatalogTests" ReferencedContainer = "container:Packages/CatalogKit">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference skipped = "NO" parallelizable = "NO">
             <BuildableReference BuildableIdentifier = "primary" BlueprintIdentifier = "F8AAFCFAA314D1A912EEA7DC" BuildableName = "CatalogUITests.xctest" BlueprintName = "CatalogUITests" ReferencedContainer = "container:Catalog.xcodeproj">
             </BuildableReference>
          </TestableReference>
