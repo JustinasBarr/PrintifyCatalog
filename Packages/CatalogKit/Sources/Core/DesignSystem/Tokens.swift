@@ -57,6 +57,8 @@ extension Color {
     public static let tile = Color(light: 0xF3F4F7, dark: 0x171A21)
     /// Search fields and chips.
     public static let field = Color(light: 0xEEF0F4, dark: 0x1F232C)
+    /// Buttons that float over cards: lighter than a card in the dark too, where a shadow doesn't show.
+    public static let raised = Color(light: 0xFFFFFF, dark: 0x292E39)
     /// Titles and prices.
     public static let ink = Color(light: 0x0E1320, dark: 0xF2F4F8)
     /// Secondary text: brand, category.

@@ -14,6 +14,7 @@ struct CatalogApp: App {
     var body: some Scene {
         WindowGroup {
             CatalogRootView(feature: container.catalog)
+                .appearanceToggle()
                 .environment(\.imageLoader, container.imageLoader)
                 .environment(\.imageLoaderKind, container.imageLoaderKind)
                 .tint(Color.action)
