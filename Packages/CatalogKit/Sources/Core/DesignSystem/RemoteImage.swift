@@ -16,13 +16,17 @@ extension EnvironmentValues {
 /// `AsyncImage` or the downsampling loader, so both can be measured on one build.
 public struct RemoteImage: View {
     private let url: URL?
+    private let preview: URL?
     private let contentMode: ContentMode
     private let inset: EdgeInsets
     @Environment(\.imageLoaderKind) private var kind
     @Environment(\.redactionReasons) private var redaction
 
-    public init(url: URL?, contentMode: ContentMode = .fit, inset: EdgeInsets = EdgeInsets()) {
+    /// `preview` is a picture already on screen elsewhere (the list's thumbnail): while `url` loads, its cached
+    /// copy stands in, so a detail swapping the thumbnail for the full photo never flashes empty.
+    public init(url: URL?, preview: URL? = nil, contentMode: ContentMode = .fit, inset: EdgeInsets = EdgeInsets()) {
         self.url = url
+        self.preview = preview
         self.contentMode = contentMode
         self.inset = inset
     }
@@ -34,12 +38,14 @@ public struct RemoteImage: View {
             } else {
                 switch kind {
                 case .system: SystemImage(url: url, contentMode: contentMode, inset: inset)
-                case .downsampling: DownsampledImage(url: url, contentMode: contentMode, inset: inset)
+                case .downsampling:
+                    DownsampledImage(url: url, preview: preview, contentMode: contentMode, inset: inset)
                 }
             }
         }
-        // A reused view showing a new URL starts empty, never with the previous product's picture.
-        .id(url)
+        // A reused view showing a new product starts empty, never with the previous product's picture. Keyed on the
+        // preview when there is one, so the picture on screen stays while the sharper photo for it loads.
+        .id(preview ?? url)
         .accessibilityHidden(true)
     }
 }
@@ -69,6 +75,7 @@ private struct SystemImage: View {
 
 private struct DownsampledImage: View {
     let url: URL?
+    let preview: URL?
     let contentMode: ContentMode
     let inset: EdgeInsets
     @Environment(\.imageLoader) private var loader
@@ -79,9 +86,9 @@ private struct DownsampledImage: View {
     var body: some View {
         GeometryReader { proxy in
             Group {
-                if let image {
+                if let picture = image ?? cachedCopy {
                     // Fades only: nothing moves when data arrives.
-                    Image(uiImage: image).resizable().aspectRatio(contentMode: contentMode).padding(inset)
+                    Image(uiImage: picture).resizable().aspectRatio(contentMode: contentMode).padding(inset)
                         .transition(.opacity)
                 } else if failed {
                     BrokenImage()
@@ -110,21 +117,28 @@ private struct DownsampledImage: View {
         }
         guard pixels > 0 else { return }
         failed = false
-        showCachedCopy(of: url)
         do {
-            let loaded = try await loader.image(for: url, maxPixelSize: pixels)
-            withAnimation(.strongEaseOut) { image = loaded }
+            show(try await loader.image(for: url, maxPixelSize: pixels))
         } catch is CancellationError {
         } catch {
             failed = image == nil
         }
     }
 
-    /// A detail that opens on a picture the grid already shows draws it at once, then swaps in its sharper
-    /// decode.
-    private func showCachedCopy(of url: URL) {
-        guard image == nil, let cached = loader.cachedImage(for: url) else { return }
-        image = cached
+    /// Fades in over an empty frame; over a picture already on screen it swaps at once, because the two are the same
+    /// photo and a fade between them would dim it halfway.
+    private func show(_ loaded: UIImage) {
+        guard image ?? cachedCopy == nil else {
+            image = loaded
+            return
+        }
+        withAnimation(.strongEaseOut) { image = loaded }
+    }
+
+    /// A detail that opens on a picture the grid already shows draws it in its first frame, before the load task
+    /// starts, then swaps in its sharper decode.
+    private var cachedCopy: UIImage? {
+        url.flatMap(loader.cachedImage(for:)) ?? preview.flatMap(loader.cachedImage(for:))
     }
 }
 

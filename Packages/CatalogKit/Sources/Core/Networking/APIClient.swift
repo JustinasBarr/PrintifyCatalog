@@ -21,17 +21,32 @@ public struct APIClient: Sendable {
     }
 
     public func send<Response>(_ endpoint: Endpoint<Response>) async throws(APIError) -> Response {
-        guard let url = endpoint.url(relativeTo: baseURL) else { throw logged(.invalidRequest, endpoint) }
-        let data = try await body(from: url, for: endpoint)
+        guard let request = request(for: endpoint) else { throw logged(.invalidRequest, endpoint) }
+        let data = try await body(answering: request, for: endpoint)
         return try decoded(data, for: endpoint)
     }
 
+    private func request<Response>(for endpoint: Endpoint<Response>) -> URLRequest? {
+        guard let url = endpoint.url(relativeTo: baseURL) else { return nil }
+        // A request's own 60 s default would override the session's 15 s.
+        var request = URLRequest(url: url, timeoutInterval: session.configuration.timeoutIntervalForRequest)
+        request.httpMethod = endpoint.method.rawValue
+        if let body = endpoint.body {
+            request.httpBody = body
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        }
+        return request
+    }
+
     /// The body of a 2xx answer; anything else becomes an `APIError`.
-    private func body<Response>(from url: URL, for endpoint: Endpoint<Response>) async throws(APIError) -> Data {
+    private func body<Response>(
+        answering request: URLRequest,
+        for endpoint: Endpoint<Response>
+    ) async throws(APIError) -> Data {
         let data: Data
         let response: URLResponse
         do {
-            (data, response) = try await session.data(from: url)
+            (data, response) = try await session.data(for: request)
         } catch {
             throw logged(APIError(transportError: error), endpoint)
         }

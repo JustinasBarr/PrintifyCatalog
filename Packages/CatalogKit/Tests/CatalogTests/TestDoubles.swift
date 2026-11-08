@@ -15,15 +15,21 @@ enum Fixture {
 }
 
 extension Product.Summary {
-    static func sample(id: Int, price: Decimal = 10, discountPercentage: Double = 0) -> Product.Summary {
+    static func sample(
+        id: Int,
+        price: Decimal = 10,
+        discountPercentage: Double = 0,
+        stock: Int = 20,
+        availabilityStatus: String = "In Stock"
+    ) -> Product.Summary {
         Product.Summary(
             id: id,
             title: "Product \(id)",
             price: price,
             discountPercentage: discountPercentage,
             rating: 4,
-            stock: 20,
-            availabilityStatus: "In Stock",
+            stock: stock,
+            availabilityStatus: availabilityStatus,
             brand: nil,
             category: "beauty",
             thumbnail: URL(string: "https://cdn.example.com/\(id).webp")!

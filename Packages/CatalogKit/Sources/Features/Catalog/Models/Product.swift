@@ -10,7 +10,7 @@ struct Product: Identifiable, Hashable, Codable, Sendable, Product.PriceAndStock
     let price: Decimal
     let discountPercentage: Double
     let rating: Double
-    let stock: Int
+    var stock: Int
     let tags: [String]
     /// Missing on about half the catalog (groceries, furniture); screens show the category instead.
     let brand: String?
@@ -20,7 +20,7 @@ struct Product: Identifiable, Hashable, Codable, Sendable, Product.PriceAndStock
     let dimensions: Dimensions
     let warrantyInformation: String
     let shippingInformation: String
-    let availabilityStatus: String
+    var availabilityStatus: String
     let reviews: [Review]
     let returnPolicy: String
     let minimumOrderQuantity: Int
@@ -54,8 +54,8 @@ extension Product {
         let price: Decimal
         let discountPercentage: Double
         let rating: Double
-        let stock: Int
-        let availabilityStatus: String
+        var stock: Int
+        var availabilityStatus: String
         let brand: String?
         let category: String
         let thumbnail: URL
@@ -104,8 +104,8 @@ extension Product {
     protocol PriceAndStock {
         var price: Decimal { get }
         var discountPercentage: Double { get }
-        var stock: Int { get }
-        var availabilityStatus: String { get }
+        var stock: Int { get set }
+        var availabilityStatus: String { get set }
     }
 }
 
@@ -119,6 +119,20 @@ extension Product.PriceAndStock {
         case "Out of Stock": .outOfStock
         default: stock > 0 ? .inStock : .outOfStock
         }
+    }
+
+    /// The same product with a stock the merchant set. An update's answer carries no status, so this sets the one
+    /// the API's own data uses for the count: 0 Out of Stock, 1–7 Low Stock, 8 or more In Stock.
+    func restocked(to newStock: Int) -> Self {
+        var restocked = self
+        restocked.stock = newStock
+        restocked.availabilityStatus =
+            switch newStock {
+            case ...0: "Out of Stock"
+            case 1...7: "Low Stock"
+            default: "In Stock"
+            }
+        return restocked
     }
 
     /// Low or out of stock: what a merchant acts on first.

@@ -22,9 +22,11 @@ struct APIClientTests {
     private let item = Endpoint<Item>(path: "item")
 
     private var lastRequest: URLRequest? { StubProtocol.lastRequest.withLock { $0 } }
+    private var lastBody: Data? { StubProtocol.lastBody.withLock { $0 } }
 
     init() {
         StubProtocol.lastRequest.withLock { $0 = nil }
+        StubProtocol.lastBody.withLock { $0 = nil }
     }
 
     @Test func joinsBaseURLPathAndQuery() async throws {
@@ -57,6 +59,15 @@ struct APIClientTests {
         StubProtocol.answer = .json(#"{"id":1}"#)
         _ = try await client.send(item)
         #expect(lastRequest?.value(forHTTPHeaderField: "Accept") == "application/json")
+    }
+
+    @Test func putSendsItsJSONBody() async throws {
+        StubProtocol.answer = .json(#"{"id":1}"#)
+        let body = Data(#"{"stock":15}"#.utf8)
+        _ = try await client.send(Endpoint<Item>(path: "products/1", method: .put, body: body))
+        #expect(lastRequest?.httpMethod == "PUT")
+        #expect(lastRequest?.value(forHTTPHeaderField: "Content-Type") == "application/json")
+        #expect(lastBody == body)
     }
 
     @Test func decodesTheEndpointsResponseType() async throws {
@@ -136,9 +147,9 @@ struct APIClientTests {
     }
 }
 
-/// Answers every request with `answer` and remembers the last request. URLSession calls `startLoading` on its
-/// own thread while a test polls `lastRequest`, so that one sits behind a lock; `answer` is written only before
-/// a request starts, and `.serialized` keeps tests apart.
+/// Answers every request with `answer` and remembers the last request and its body. URLSession calls
+/// `startLoading` on its own thread while a test polls `lastRequest`, so those two sit behind locks; `answer` is
+/// written only before a request starts, and `.serialized` keeps tests apart.
 final class StubProtocol: URLProtocol, @unchecked Sendable {
     enum Answer {
         case json(String)
@@ -150,6 +161,8 @@ final class StubProtocol: URLProtocol, @unchecked Sendable {
 
     nonisolated(unsafe) static var answer = Answer.status(500)
     static let lastRequest = OSAllocatedUnfairLock<URLRequest?>(initialState: nil)
+    /// The session hands a body to a protocol as a stream, never as `httpBody`.
+    static let lastBody = OSAllocatedUnfairLock<Data?>(initialState: nil)
 
     override class func canInit(with request: URLRequest) -> Bool { true }
     override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
@@ -157,12 +170,25 @@ final class StubProtocol: URLProtocol, @unchecked Sendable {
 
     override func startLoading() {
         StubProtocol.lastRequest.withLock { $0 = request }
+        let body = request.httpBodyStream.map(readAll)
+        StubProtocol.lastBody.withLock { $0 = body }
         switch StubProtocol.answer {
         case .json(let body): respond(status: 200, body: Data(body.utf8))
         case .status(let status): respond(status: status, body: Data())
         case .failure(let error): client?.urlProtocol(self, didFailWithError: error)
         case .never: break
         }
+    }
+
+    private func readAll(_ stream: InputStream) -> Data {
+        var data = Data()
+        var buffer = [UInt8](repeating: 0, count: 1024)
+        stream.open()
+        defer { stream.close() }
+        while case let count = stream.read(&buffer, maxLength: buffer.count), count > 0 {
+            data.append(buffer, count: count)
+        }
+        return data
     }
 
     private func respond(status: Int, body: Data) {

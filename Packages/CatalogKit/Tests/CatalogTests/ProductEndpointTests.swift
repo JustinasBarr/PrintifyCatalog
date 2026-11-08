@@ -59,6 +59,14 @@ struct ProductEndpointTests {
         #expect(url(ProductEndpoint.product(id: 7)) == "https://dummyjson.com/products/7")
     }
 
+    @Test func updateStockPutsOnlyTheNewStock() throws {
+        let endpoint = ProductEndpoint.updateStock(id: 7, stock: 15)
+        #expect(url(endpoint) == "https://dummyjson.com/products/7")
+        #expect(endpoint.method == .put)
+        let body = try #require(endpoint.body)
+        #expect(try JSONSerialization.jsonObject(with: body) as? [String: Int] == ["stock": 15])
+    }
+
     private func url<Response>(_ endpoint: Endpoint<Response>) -> String? {
         endpoint.url(relativeTo: URL(string: "https://dummyjson.com")!)?.absoluteString
     }

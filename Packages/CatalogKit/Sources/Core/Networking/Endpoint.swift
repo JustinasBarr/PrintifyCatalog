@@ -1,13 +1,18 @@
 import Foundation
 
-/// One GET request and the type its answer decodes to. Features build these; `APIClient.send` runs them.
+/// One request and the type its answer decodes to. Features build these; `APIClient.send` runs them.
 public struct Endpoint<Response: Decodable & Sendable>: Sendable {
     public let path: String
     public let query: [URLQueryItem]
+    public let method: HTTPMethod
+    /// JSON, sent as the request's body.
+    public let body: Data?
 
-    public init(path: String, query: [URLQueryItem] = []) {
+    public init(path: String, query: [URLQueryItem] = [], method: HTTPMethod = .get, body: Data? = nil) {
         self.path = path
         self.query = query
+        self.method = method
+        self.body = body
     }
 
     /// The path alone, for logs: query values can hold what a merchant typed.
@@ -27,6 +32,11 @@ public struct Endpoint<Response: Decodable & Sendable>: Sendable {
             value: item.value?.addingPercentEncoding(withAllowedCharacters: .queryValueAllowed)
         )
     }
+}
+
+public enum HTTPMethod: String, Sendable {
+    case get = "GET"
+    case put = "PUT"
 }
 
 extension CharacterSet {

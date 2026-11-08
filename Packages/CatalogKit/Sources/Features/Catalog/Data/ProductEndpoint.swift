@@ -30,6 +30,16 @@ enum ProductEndpoint {
     static func product(id: Int) -> Endpoint<Product> {
         Endpoint(path: "products/\(id)")
     }
+
+    /// Sends only the new stock. The answer is the product without its status, reviews or SKU, so only the stock
+    /// is read back.
+    static func updateStock(id: Int, stock: Int) -> Endpoint<StockUpdate> {
+        Endpoint(path: "products/\(id)", method: .put, body: try? JSONEncoder().encode(StockUpdate(stock: stock)))
+    }
+
+    struct StockUpdate: Codable, Sendable {
+        let stock: Int
+    }
 }
 
 /// Paging, then the optional order, then the row's fields.

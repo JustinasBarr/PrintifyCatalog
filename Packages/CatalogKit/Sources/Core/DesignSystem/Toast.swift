@@ -5,6 +5,7 @@ import SwiftUI
 struct ToastModifier: ViewModifier {
     @Binding var message: String?
     let duration: Duration
+    let topInset: CGFloat
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     func body(content: Content) -> some View {
@@ -18,7 +19,7 @@ struct ToastModifier: ViewModifier {
                         .padding(.vertical, Spacing.m)
                         .background(Color.ink, in: Capsule())
                         .lift()
-                        .padding(.top, Spacing.s)
+                        .padding(.top, topInset + Spacing.s)
                         .transition(reduceMotion ? .opacity : .move(edge: .top).combined(with: .opacity))
                         .accessibilityIdentifier("toast-label-message")
                         .task(id: message) { await dismiss(after: message) }
@@ -40,8 +41,13 @@ struct ToastModifier: ViewModifier {
 }
 
 extension View {
-    /// Shows `message` as a toast while it is set, then clears it after `duration`.
-    public func toast(_ message: Binding<String?>, duration: Duration = .seconds(1.6)) -> some View {
-        modifier(ToastModifier(message: message, duration: duration))
+    /// Shows `message` as a toast while it is set, then clears it after `duration`. `topInset` moves it below a
+    /// bar of buttons drawn over the top of the screen, so it never covers them.
+    public func toast(
+        _ message: Binding<String?>,
+        duration: Duration = .seconds(1.6),
+        topInset: CGFloat = 0
+    ) -> some View {
+        modifier(ToastModifier(message: message, duration: duration, topInset: topInset))
     }
 }

@@ -8,6 +8,8 @@ public enum Spacing {
     public static let l: CGFloat = 16
     public static let xl: CGFloat = 24
     public static let xxl: CGFloat = 32
+    /// The screen's side margin: iOS's own on large phones.
+    public static let page: CGFloat = 20
 }
 
 /// Corner radii, always with the `.continuous` style. Chips and pills use `Capsule` instead.
@@ -40,6 +42,8 @@ extension Font {
     public static let shelfTitle = Font.system(.title2, design: .serif, weight: .bold)
     /// A card's price: the size of its title, bold, so a grid row reads title then price at one size.
     public static let cardPrice = Font.subheadline.bold().monospacedDigit()
+    /// A product's name on its own screen: New York, the one display voice next to SF Pro text.
+    public static let productTitle = Font.system(.title, design: .serif, weight: .bold)
 }
 
 /// Cool neutral grounds and one accent. Each colour has a designed dark pair, not an inverted one.

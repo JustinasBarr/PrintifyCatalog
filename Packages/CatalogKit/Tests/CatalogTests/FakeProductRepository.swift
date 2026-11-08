@@ -24,6 +24,9 @@ struct FakeProductRepository: ProductRepository {
         throw APIError.offline
     }
     var onProduct: @Sendable (Int) async throws(APIError) -> Product = { _ throws(APIError) in throw APIError.offline }
+    var onUpdateStock: @Sendable (Int, Int) async throws(APIError) -> Int = { _, _ throws(APIError) in
+        throw APIError.offline
+    }
 
     func products(_ page: PageRequest, sortedBy sort: Product.Sort?) async throws(APIError) -> Page<Product.Summary> {
         try await onProducts(page, sort)
@@ -51,5 +54,9 @@ struct FakeProductRepository: ProductRepository {
 
     func product(id: Int) async throws(APIError) -> Product {
         try await onProduct(id)
+    }
+
+    func updateStock(id: Int, stock: Int) async throws(APIError) -> Int {
+        try await onUpdateStock(id, stock)
     }
 }
