@@ -1,0 +1,67 @@
+{
+  "products": [
+    {
+      "id": 11,
+      "title": "Annibale Colombo Bed",
+      "price": 1899.99,
+      "discountPercentage": 8.57,
+      "rating": 4.77,
+      "stock": 88,
+      "availabilityStatus": "In Stock",
+      "brand": "Annibale Colombo",
+      "category": "furniture",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-bed/thumbnail.webp"
+    },
+    {
+      "id": 12,
+      "title": "Annibale Colombo Sofa",
+      "price": 2499.99,
+      "discountPercentage": 14.4,
+      "rating": 3.92,
+      "stock": 60,
+      "availabilityStatus": "In Stock",
+      "brand": "Annibale Colombo",
+      "category": "furniture",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-sofa/thumbnail.webp"
+    },
+    {
+      "id": 13,
+      "title": "Bedside Table African Cherry",
+      "price": 299.99,
+      "discountPercentage": 19.09,
+      "rating": 2.87,
+      "stock": 64,
+      "availabilityStatus": "In Stock",
+      "brand": "Furniture Co.",
+      "category": "furniture",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/furniture/bedside-table-african-cherry/thumbnail.webp"
+    },
+    {
+      "id": 14,
+      "title": "Knoll Saarinen Executive Conference Chair",
+      "price": 499.99,
+      "discountPercentage": 2.01,
+      "rating": 4.88,
+      "stock": 26,
+      "availabilityStatus": "In Stock",
+      "brand": "Knoll",
+      "category": "furniture",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/furniture/knoll-saarinen-executive-conference-chair/thumbnail.webp"
+    },
+    {
+      "id": 15,
+      "title": "Wooden Bathroom Sink With Mirror",
+      "price": 799.99,
+      "discountPercentage": 8.8,
+      "rating": 3.59,
+      "stock": 7,
+      "availabilityStatus": "Low Stock",
+      "brand": "Bath Trends",
+      "category": "furniture",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/furniture/wooden-bathroom-sink-with-mirror/thumbnail.webp"
+    }
+  ],
+  "total": 5,
+  "skip": 0,
+  "limit": 5
+}

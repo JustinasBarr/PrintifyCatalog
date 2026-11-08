@@ -1,0 +1,172 @@
+{
+  "products": [
+    {
+      "id": 28,
+      "title": "Ice Cream",
+      "price": 5.49,
+      "discountPercentage": 8.69,
+      "rating": 3.39,
+      "stock": 27,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/ice-cream/thumbnail.webp"
+    },
+    {
+      "id": 29,
+      "title": "Juice",
+      "price": 3.99,
+      "discountPercentage": 12.06,
+      "rating": 3.94,
+      "stock": 50,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/juice/thumbnail.webp"
+    },
+    {
+      "id": 30,
+      "title": "Kiwi",
+      "price": 2.49,
+      "discountPercentage": 15.22,
+      "rating": 4.93,
+      "stock": 99,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/kiwi/thumbnail.webp"
+    },
+    {
+      "id": 31,
+      "title": "Lemon",
+      "price": 0.79,
+      "discountPercentage": 9.7,
+      "rating": 3.53,
+      "stock": 31,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/lemon/thumbnail.webp"
+    },
+    {
+      "id": 32,
+      "title": "Milk",
+      "price": 3.49,
+      "discountPercentage": 13.74,
+      "rating": 2.61,
+      "stock": 27,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/milk/thumbnail.webp"
+    },
+    {
+      "id": 33,
+      "title": "Mulberry",
+      "price": 4.99,
+      "discountPercentage": 12.87,
+      "rating": 4.95,
+      "stock": 99,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/mulberry/thumbnail.webp"
+    },
+    {
+      "id": 34,
+      "title": "Nescafe Coffee",
+      "price": 7.99,
+      "discountPercentage": 1.59,
+      "rating": 4.82,
+      "stock": 57,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/nescafe-coffee/thumbnail.webp"
+    },
+    {
+      "id": 35,
+      "title": "Potatoes",
+      "price": 2.29,
+      "discountPercentage": 5.38,
+      "rating": 4.81,
+      "stock": 13,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/potatoes/thumbnail.webp"
+    },
+    {
+      "id": 36,
+      "title": "Protein Powder",
+      "price": 19.99,
+      "discountPercentage": 7.59,
+      "rating": 4.18,
+      "stock": 80,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/protein-powder/thumbnail.webp"
+    },
+    {
+      "id": 37,
+      "title": "Red Onions",
+      "price": 1.99,
+      "discountPercentage": 9.9,
+      "rating": 4.2,
+      "stock": 82,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/red-onions/thumbnail.webp"
+    },
+    {
+      "id": 38,
+      "title": "Rice",
+      "price": 5.99,
+      "discountPercentage": 9.29,
+      "rating": 3.18,
+      "stock": 59,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/rice/thumbnail.webp"
+    },
+    {
+      "id": 39,
+      "title": "Soft Drinks",
+      "price": 1.99,
+      "discountPercentage": 17.48,
+      "rating": 4.75,
+      "stock": 53,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/soft-drinks/thumbnail.webp"
+    },
+    {
+      "id": 40,
+      "title": "Strawberry",
+      "price": 3.99,
+      "discountPercentage": 1.12,
+      "rating": 3.08,
+      "stock": 46,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/strawberry/thumbnail.webp"
+    },
+    {
+      "id": 41,
+      "title": "Tissue Paper Box",
+      "price": 2.49,
+      "discountPercentage": 13.28,
+      "rating": 2.69,
+      "stock": 86,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/tissue-paper-box/thumbnail.webp"
+    },
+    {
+      "id": 42,
+      "title": "Water",
+      "price": 0.99,
+      "discountPercentage": 14.92,
+      "rating": 4.96,
+      "stock": 53,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/water/thumbnail.webp"
+    }
+  ],
+  "total": 27,
+  "skip": 12,
+  "limit": 15
+}

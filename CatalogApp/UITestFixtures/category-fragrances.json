@@ -1,0 +1,67 @@
+{
+  "products": [
+    {
+      "id": 6,
+      "title": "Calvin Klein CK One",
+      "price": 49.99,
+      "discountPercentage": 1.89,
+      "rating": 4.37,
+      "stock": 29,
+      "availabilityStatus": "In Stock",
+      "brand": "Calvin Klein",
+      "category": "fragrances",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/fragrances/calvin-klein-ck-one/thumbnail.webp"
+    },
+    {
+      "id": 7,
+      "title": "Chanel Coco Noir Eau De",
+      "price": 129.99,
+      "discountPercentage": 16.51,
+      "rating": 4.26,
+      "stock": 58,
+      "availabilityStatus": "In Stock",
+      "brand": "Chanel",
+      "category": "fragrances",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/fragrances/chanel-coco-noir-eau-de/thumbnail.webp"
+    },
+    {
+      "id": 8,
+      "title": "Dior J'adore",
+      "price": 89.99,
+      "discountPercentage": 14.72,
+      "rating": 3.8,
+      "stock": 98,
+      "availabilityStatus": "In Stock",
+      "brand": "Dior",
+      "category": "fragrances",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/fragrances/dior-j'adore/thumbnail.webp"
+    },
+    {
+      "id": 9,
+      "title": "Dolce Shine Eau de",
+      "price": 69.99,
+      "discountPercentage": 0.62,
+      "rating": 3.96,
+      "stock": 4,
+      "availabilityStatus": "Low Stock",
+      "brand": "Dolce & Gabbana",
+      "category": "fragrances",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/fragrances/dolce-shine-eau-de/thumbnail.webp"
+    },
+    {
+      "id": 10,
+      "title": "Gucci Bloom Eau de",
+      "price": 79.99,
+      "discountPercentage": 14.39,
+      "rating": 2.74,
+      "stock": 91,
+      "availabilityStatus": "In Stock",
+      "brand": "Gucci",
+      "category": "fragrances",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/fragrances/gucci-bloom-eau-de/thumbnail.webp"
+    }
+  ],
+  "total": 5,
+  "skip": 0,
+  "limit": 5
+}

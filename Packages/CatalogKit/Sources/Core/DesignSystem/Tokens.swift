@@ -36,6 +36,10 @@ extension Font {
     /// Digits keep one width, so a price or a count never shifts its neighbours when it changes.
     public static let price = Font.headline.monospacedDigit()
     public static let label = Font.caption.weight(.semibold)
+    /// New York for shelf titles on Home; screen titles get it from the navigation bar's appearance.
+    public static let shelfTitle = Font.system(.title2, design: .serif, weight: .bold)
+    /// A card's price: the size of its title, bold, so a grid row reads title then price at one size.
+    public static let cardPrice = Font.subheadline.bold().monospacedDigit()
 }
 
 /// Cool neutral grounds and one accent. Each colour has a designed dark pair, not an inverted one.
@@ -58,6 +62,11 @@ extension Color {
     /// Buttons and links. Named `action`, not `accent`, so it never clashes with the asset catalog's
     /// generated `AccentColor`.
     public static let action = Color(light: 0x3446E8, dark: 0x8A9BFF)
+    /// Text on an `action` fill. White fails on the light dark-mode `action` (2.6:1), so dark mode uses the
+    /// ground: 7.6:1. Light: 6.6:1.
+    public static let onAction = Color(light: 0xFFFFFF, dark: 0x0B0D12)
+    /// The rating star. It sits next to the number it stands for, so it is decoration, not the signal.
+    public static let rating = Color(light: 0xF2A20C, dark: 0xFFC24D)
     public static let skeleton = Color(light: 0xE7E9EE, dark: 0x232731)
 
     /// Stock colours, always next to words and a count, never on their own. Each passes 4.5:1 on ground,

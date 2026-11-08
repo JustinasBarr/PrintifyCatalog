@@ -1,3 +1,4 @@
+import Catalog
 import Foundation
 import Images
 import Networking
@@ -10,10 +11,13 @@ final class AppContainer {
     let imageLoaderKind: ImageLoaderKind
     /// Pictures stay in memory only: the image CDN sends `no-store`, so `URLCache` keeps nothing on disk.
     let imageLoader: any ImageLoading
+    let catalog: CatalogFeature
 
     init(arguments: [String] = ProcessInfo.processInfo.arguments) {
-        apiClient = APIClient()
+        let scenario = UITestScenario(arguments: arguments)
+        apiClient = APIClient(configuration: scenario?.sessionConfiguration() ?? .default)
         imageLoaderKind = ImageLoaderKind(arguments: arguments)
-        imageLoader = DownsamplingImageLoader()
+        imageLoader = DownsamplingImageLoader(fetch: scenario?.imageFetch)
+        catalog = CatalogFeature(client: apiClient)
     }
 }

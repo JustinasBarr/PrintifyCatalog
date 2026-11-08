@@ -28,9 +28,11 @@ struct ListPagination: Equatable, Sendable {
 
     /// Adds a page's new rows. Offset paging repeats a row when the catalog changes between two requests,
     /// so a row already shown is dropped; an empty page ends the list even if `total` says otherwise.
-    mutating func append(_ page: Page<Product.Summary>) {
+    /// `isShown` keeps only the rows this list shows (the attention list keeps low and out of stock), while
+    /// the next page still starts after every row the server sent.
+    mutating func append(_ page: Page<Product.Summary>, keeping isShown: (Product.Summary) -> Bool = { _ in true }) {
         let shown = Set(items.map(\.id))
-        items += page.items.filter { !shown.contains($0.id) }
+        items += page.items.filter { isShown($0) && !shown.contains($0.id) }
         received += page.items.count
         pagesReceived += 1
         total = page.total

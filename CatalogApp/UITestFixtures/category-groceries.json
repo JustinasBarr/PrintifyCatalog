@@ -1,0 +1,139 @@
+{
+  "products": [
+    {
+      "id": 16,
+      "title": "Apple",
+      "price": 1.99,
+      "discountPercentage": 12.62,
+      "rating": 4.19,
+      "stock": 8,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/apple/thumbnail.webp"
+    },
+    {
+      "id": 17,
+      "title": "Beef Steak",
+      "price": 12.99,
+      "discountPercentage": 9.61,
+      "rating": 4.47,
+      "stock": 86,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/beef-steak/thumbnail.webp"
+    },
+    {
+      "id": 18,
+      "title": "Cat Food",
+      "price": 8.99,
+      "discountPercentage": 9.58,
+      "rating": 3.13,
+      "stock": 46,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/cat-food/thumbnail.webp"
+    },
+    {
+      "id": 19,
+      "title": "Chicken Meat",
+      "price": 9.99,
+      "discountPercentage": 13.7,
+      "rating": 3.19,
+      "stock": 97,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/chicken-meat/thumbnail.webp"
+    },
+    {
+      "id": 20,
+      "title": "Cooking Oil",
+      "price": 4.99,
+      "discountPercentage": 9.33,
+      "rating": 4.8,
+      "stock": 10,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/cooking-oil/thumbnail.webp"
+    },
+    {
+      "id": 21,
+      "title": "Cucumber",
+      "price": 1.49,
+      "discountPercentage": 0.16,
+      "rating": 4.07,
+      "stock": 84,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/cucumber/thumbnail.webp"
+    },
+    {
+      "id": 22,
+      "title": "Dog Food",
+      "price": 10.99,
+      "discountPercentage": 10.27,
+      "rating": 4.55,
+      "stock": 71,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/dog-food/thumbnail.webp"
+    },
+    {
+      "id": 23,
+      "title": "Eggs",
+      "price": 2.99,
+      "discountPercentage": 11.05,
+      "rating": 2.53,
+      "stock": 9,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/eggs/thumbnail.webp"
+    },
+    {
+      "id": 24,
+      "title": "Fish Steak",
+      "price": 14.99,
+      "discountPercentage": 4.23,
+      "rating": 3.78,
+      "stock": 74,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/fish-steak/thumbnail.webp"
+    },
+    {
+      "id": 25,
+      "title": "Green Bell Pepper",
+      "price": 1.29,
+      "discountPercentage": 0.16,
+      "rating": 3.25,
+      "stock": 33,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/green-bell-pepper/thumbnail.webp"
+    },
+    {
+      "id": 26,
+      "title": "Green Chili Pepper",
+      "price": 0.99,
+      "discountPercentage": 1,
+      "rating": 3.66,
+      "stock": 3,
+      "availabilityStatus": "Low Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/green-chili-pepper/thumbnail.webp"
+    },
+    {
+      "id": 27,
+      "title": "Honey Jar",
+      "price": 6.99,
+      "discountPercentage": 14.4,
+      "rating": 3.97,
+      "stock": 34,
+      "availabilityStatus": "In Stock",
+      "category": "groceries",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/honey-jar/thumbnail.webp"
+    }
+  ],
+  "total": 27,
+  "skip": 0,
+  "limit": 12
+}

@@ -1,0 +1,67 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "title": "Essence Mascara Lash Princess",
+      "price": 9.99,
+      "discountPercentage": 10.48,
+      "rating": 2.56,
+      "stock": 99,
+      "availabilityStatus": "In Stock",
+      "brand": "Essence",
+      "category": "beauty",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp"
+    },
+    {
+      "id": 2,
+      "title": "Eyeshadow Palette with Mirror",
+      "price": 19.99,
+      "discountPercentage": 18.19,
+      "rating": 2.86,
+      "stock": 34,
+      "availabilityStatus": "In Stock",
+      "brand": "Glamour Beauty",
+      "category": "beauty",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/beauty/eyeshadow-palette-with-mirror/thumbnail.webp"
+    },
+    {
+      "id": 3,
+      "title": "Powder Canister",
+      "price": 14.99,
+      "discountPercentage": 9.84,
+      "rating": 4.64,
+      "stock": 89,
+      "availabilityStatus": "In Stock",
+      "brand": "Velvet Touch",
+      "category": "beauty",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/beauty/powder-canister/thumbnail.webp"
+    },
+    {
+      "id": 4,
+      "title": "Red Lipstick",
+      "price": 12.99,
+      "discountPercentage": 12.16,
+      "rating": 4.36,
+      "stock": 91,
+      "availabilityStatus": "In Stock",
+      "brand": "Chic Cosmetics",
+      "category": "beauty",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/beauty/red-lipstick/thumbnail.webp"
+    },
+    {
+      "id": 5,
+      "title": "Red Nail Polish",
+      "price": 8.99,
+      "discountPercentage": 11.44,
+      "rating": 4.32,
+      "stock": 79,
+      "availabilityStatus": "In Stock",
+      "brand": "Nail Couture",
+      "category": "beauty",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/beauty/red-nail-polish/thumbnail.webp"
+    }
+  ],
+  "total": 5,
+  "skip": 0,
+  "limit": 5
+}
