@@ -457,7 +457,7 @@ private actor CallCount {
 
 extension HomeViewModel {
     /// Home whose chosen-category grid pages through the same repository, as `CatalogFeature` builds it.
-    convenience init(repository: any ProductRepository) {
+    convenience init(repository: any ProductRepositoryProtocol) {
         self.init(repository: repository) { category in
             ProductListViewModel { page throws(APIError) in
                 try await repository.products(inCategory: category.slug, page, sortedBy: nil)

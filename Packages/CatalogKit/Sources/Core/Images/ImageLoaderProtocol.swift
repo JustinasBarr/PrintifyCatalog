@@ -18,7 +18,7 @@ public enum ImageLoaderKind: String, Sendable {
     }
 }
 
-public protocol ImageLoading: Sendable {
+public protocol ImageLoaderProtocol: Sendable {
     /// The image decoded at no more than `maxPixelSize` pixels on its longest side.
     func image(for url: URL, maxPixelSize: Int) async throws -> UIImage
     /// The last image decoded for `url` at any size, if it is still in memory, without waiting: a screen that

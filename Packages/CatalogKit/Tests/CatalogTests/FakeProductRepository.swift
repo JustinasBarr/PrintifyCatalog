@@ -4,7 +4,7 @@ import Networking
 
 /// A repository whose answers each test sets. Every call fails as offline unless the test says otherwise, so a
 /// test states only the calls it expects.
-struct FakeProductRepository: ProductRepository {
+struct FakeProductRepository: ProductRepositoryProtocol {
     var onProducts: @Sendable (PageRequest, Product.Sort?) async throws(APIError) -> Page<Product.Summary> = {
         _,
         _ throws(APIError) in throw APIError.offline

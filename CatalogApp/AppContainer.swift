@@ -10,7 +10,7 @@ final class AppContainer {
     let apiClient: APIClient
     let imageLoaderKind: ImageLoaderKind
     /// Pictures stay in memory only: the image CDN sends `no-store`, so `URLCache` keeps nothing on disk.
-    let imageLoader: any ImageLoading
+    let imageLoader: any ImageLoaderProtocol
     let catalog: CatalogFeature
 
     init(arguments: [String] = ProcessInfo.processInfo.arguments) {

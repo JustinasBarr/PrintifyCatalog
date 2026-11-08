@@ -35,7 +35,7 @@ private let sharedPixelSize = 2048
 private struct ShareablePhoto: Transferable {
     let url: URL
     let name: String
-    let loader: any ImageLoading
+    let loader: any ImageLoaderProtocol
 
     static var transferRepresentation: some TransferRepresentation {
         DataRepresentation(exportedContentType: .jpeg) { photo in try await photo.jpegData() }

@@ -8,7 +8,7 @@ private let fallbackImageLoader = DownsamplingImageLoader()
 extension EnvironmentValues {
     @Entry public var imageLoaderKind: ImageLoaderKind = .downsampling
     /// The app injects its one shared loader.
-    @Entry public var imageLoader: any ImageLoading = fallbackImageLoader
+    @Entry public var imageLoader: any ImageLoaderProtocol = fallbackImageLoader
 }
 
 /// A product picture. While it loads, a shimmer covers the whole frame (not just the inset photo), so the

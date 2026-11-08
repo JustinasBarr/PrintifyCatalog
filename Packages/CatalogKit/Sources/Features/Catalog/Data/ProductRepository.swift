@@ -1,7 +1,7 @@
 import Networking
 
-/// Where catalog screens get products. The app uses `LiveProductRepository`; tests use a fake.
-protocol ProductRepository: Sendable {
+/// Where catalog screens get products. The app uses `ProductRepository`; tests use a fake.
+protocol ProductRepositoryProtocol: Sendable {
     func products(_ page: PageRequest, sortedBy sort: Product.Sort?) async throws(APIError) -> Page<Product.Summary>
     func products(
         inCategory slug: String,
@@ -20,7 +20,7 @@ protocol ProductRepository: Sendable {
 }
 
 /// The catalog from the DummyJSON products API (https://dummyjson.com/docs/products) through `client`.
-struct LiveProductRepository: ProductRepository {
+struct ProductRepository: ProductRepositoryProtocol {
     private let client: APIClient
     private let restockedStock = RestockedStock()
 

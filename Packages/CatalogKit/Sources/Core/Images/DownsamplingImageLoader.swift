@@ -4,7 +4,7 @@ import UIKit
 
 /// Pictures for a scrolling grid: decoded at display size, kept in memory, fetched once per URL and size
 /// even when several cells ask together. One instance for the whole app, so the cache outlives screens.
-public actor DownsamplingImageLoader: ImageLoading {
+public actor DownsamplingImageLoader: ImageLoaderProtocol {
     public typealias Fetch = @Sendable (URL) async throws -> Data
 
     /// The bytes arrived but are not an image.

@@ -4,14 +4,14 @@ import Testing
 
 @testable import Catalog
 
-/// The live repository over the real client, with the server replaced by recorded answers. `.serialized` because the
+/// The app's repository over the real client, with the server replaced by recorded answers. `.serialized` because the
 /// recorded server is shared between tests.
 @Suite(.serialized, .timeLimit(.minutes(1)))
-struct LiveProductRepositoryTests {
-    private let repository: LiveProductRepository = {
+struct ProductRepositoryTests {
+    private let repository: ProductRepository = {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [RecordedServer.self]
-        return LiveProductRepository(client: APIClient(configuration: configuration))
+        return ProductRepository(client: APIClient(configuration: configuration))
     }()
 
     private let firstPage = PageRequest(limit: 3, skip: 0)

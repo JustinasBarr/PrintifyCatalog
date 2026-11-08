@@ -32,14 +32,14 @@ final class HomeViewModel {
     private(set) var state = State()
     /// The grid of the one chosen category; nil unless exactly one chip is chosen.
     private(set) var categoryList: ProductListViewModel?
-    private let repository: any ProductRepository
+    private let repository: any ProductRepositoryProtocol
     private let makeCategoryList: (Product.Category) -> ProductListViewModel
     /// The API cannot filter by availability, so Home checks the 48 lowest-stock products.
     private let attentionCheck = PageRequest(limit: 48, skip: 0)
     private let shelfPage = PageRequest(limit: 10, skip: 0)
 
     init(
-        repository: any ProductRepository,
+        repository: any ProductRepositoryProtocol,
         categoryList makeCategoryList: @escaping (Product.Category) -> ProductListViewModel
     ) {
         self.repository = repository
