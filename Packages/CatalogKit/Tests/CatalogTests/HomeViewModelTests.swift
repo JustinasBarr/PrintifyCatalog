@@ -124,13 +124,13 @@ struct HomeViewModelTests {
         let shelfCalls = CallCount()
         var repository = homeRepository()
         repository.onCategoryProducts = { _, _, _ async throws(APIError) in
-            if await shelfCalls.next() == 0 { throw APIError.timedOut }
+            if await shelfCalls.next() == 0 { throw APIError.unreachable }
             return beautyShelf
         }
         let viewModel = HomeViewModel(repository: repository)
         await viewModel.load()
         await viewModel.shelfAppeared(beauty)
-        #expect(viewModel.state == shownState(shelves: ["beauty": .failed(APIError.timedOut.message)]))
+        #expect(viewModel.state == shownState(shelves: ["beauty": .failed(APIError.unreachable.message)]))
 
         await viewModel.retryShelf(beauty)
 

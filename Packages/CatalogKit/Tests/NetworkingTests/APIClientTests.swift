@@ -91,15 +91,29 @@ struct APIClientTests {
         }
     }
 
-    @Test func slowServerIsTimedOut() async {
-        StubProtocol.answer = .failure(URLError(.timedOut))
-        await #expect(throws: APIError.timedOut) {
-            try await client.send(item)
+    /// A dead connection often shows up as a timeout or a failed lookup, not as "offline", so these blame neither the
+    /// server nor "something".
+    @Test(arguments: [
+        URLError.Code.timedOut, .cannotFindHost, .cannotConnectToHost, .dnsLookupFailed, .secureConnectionFailed,
+    ])
+    func unreachableServerSaysCheckTheConnection(code: URLError.Code) async {
+        StubProtocol.answer = .failure(URLError(code))
+        do {
+            _ = try await client.send(item)
+            Issue.record("expected an error")
+        } catch {
+            #expect(error.message == "Can't reach the catalog. Check your connection and try again.")
         }
     }
 
+    @Test func givesUpOnASilentRequestAfterTenSeconds() async throws {
+        StubProtocol.answer = .json(#"{"id":1}"#)
+        _ = try await client.send(item)
+        #expect(lastRequest?.timeoutInterval == 10)
+    }
+
     @Test func otherTransportFailuresAreTransport() async {
-        StubProtocol.answer = .failure(URLError(.cannotFindHost))
+        StubProtocol.answer = .failure(URLError(.badServerResponse))
         do {
             _ = try await client.send(item)
             Issue.record("expected a transport error")

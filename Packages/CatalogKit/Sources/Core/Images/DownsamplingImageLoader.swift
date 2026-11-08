@@ -24,7 +24,7 @@ public actor DownsamplingImageLoader: ImageLoading {
     private nonisolated(unsafe) let newestKey = NSCache<NSURL, NSString>()
     private var inFlight: [Key: Task<UIImage, any Error>] = [:]
 
-    /// `fetch` is replaced in tests; by default pictures come from `URLSession.shared`.
+    /// `fetch` is replaced in tests; by default pictures come from the network and give up as fast as the data.
     public init(fetch: Fetch? = nil, memoryLimit: Int = 64 * 1024 * 1024) {
         self.fetch = fetch ?? fetchFromNetwork
         memory.totalCostLimit = memoryLimit
@@ -79,8 +79,18 @@ private func downsample(_ data: Data, maxPixelSize: Int) -> UIImage? {
     return UIImage(cgImage: image)
 }
 
+/// `URLSession.shared` waits 60 s for a silent picture; this one gives up after the same 10 s and 20 s as `APIClient`.
+private let pictureSession: URLSession = {
+    let configuration = URLSessionConfiguration.default
+    configuration.timeoutIntervalForRequest = 10
+    configuration.timeoutIntervalForResource = 20
+    return URLSession(configuration: configuration)
+}()
+
 private func fetchFromNetwork(_ url: URL) async throws -> Data {
-    let (data, response) = try await URLSession.shared.data(from: url)
+    // A request's own 60 s default would override the session's 10 s.
+    let request = URLRequest(url: url, timeoutInterval: pictureSession.configuration.timeoutIntervalForRequest)
+    let (data, response) = try await pictureSession.data(for: request)
     guard let status = (response as? HTTPURLResponse)?.statusCode, (200..<300).contains(status) else {
         throw URLError(.badServerResponse)
     }

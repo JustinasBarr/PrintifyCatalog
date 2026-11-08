@@ -153,7 +153,7 @@ private final class CategoriesOnlyNetwork: RecordedNetwork {
 
 private let log = Logger(subsystem: "Catalog", category: "ui-test")
 
-/// Long enough to see every placeholder, well short of the client's 15 s timeout.
+/// Long enough to see every placeholder, well short of the client's 10 s timeout.
 private let slowAnswerDelay = Duration.seconds(3)
 
 /// Every address `offline-after-first` has answered, API and pictures alike, from the session's and the image

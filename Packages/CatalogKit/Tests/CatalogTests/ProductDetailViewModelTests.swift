@@ -44,7 +44,7 @@ struct ProductDetailViewModelTests {
 
     // MARK: Failure and retry
 
-    @Test(arguments: [APIError.offline, .timedOut, .server(status: 500), .decoding("price"), .transport("reset")])
+    @Test(arguments: [APIError.offline, .unreachable, .server(status: 500), .decoding("price"), .transport("reset")])
     func failedLoadKeepsTheHeaderAndSaysWhatWentWrong(error: APIError) async {
         let viewModel = makeViewModel(answering: ScriptedProducts(.failure(error)))
         await viewModel.load()

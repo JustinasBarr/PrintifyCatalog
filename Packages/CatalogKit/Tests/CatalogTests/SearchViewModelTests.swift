@@ -167,7 +167,7 @@ struct SearchViewModelTests {
         let viewModel = SearchViewModel(
             sleep: { _ in },
             search: { text, page async throws(APIError) in
-                if await searches.record(text, page) == 1 { throw APIError.timedOut }
+                if await searches.record(text, page) == 1 { throw APIError.unreachable }
                 return samplePage(skip: page.skip, count: min(page.limit, 30 - page.skip), total: 30)
             }
         )
@@ -177,7 +177,8 @@ struct SearchViewModelTests {
         await viewModel.loadNextPage()
         let red = Results(query: "red", products: samples(0..<12), total: 30)
         #expect(
-            viewModel.state == State(text: "red", results: .loaded(red), nextPage: .failed(APIError.timedOut.message))
+            viewModel.state
+                == State(text: "red", results: .loaded(red), nextPage: .failed(APIError.unreachable.message))
         )
 
         await viewModel.retry()

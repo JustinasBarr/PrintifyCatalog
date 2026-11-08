@@ -12,9 +12,9 @@ public struct APIClient: Sendable {
         baseURL: URL = URL(string: "https://dummyjson.com")!,
         configuration: URLSessionConfiguration = .default
     ) {
-        // A dead connection shows the retry state after 15 s instead of iOS's default 60 s.
-        configuration.timeoutIntervalForRequest = 15
-        configuration.timeoutIntervalForResource = 30
+        // A dead connection shows the retry state after 10 s instead of iOS's default 60 s.
+        configuration.timeoutIntervalForRequest = 10
+        configuration.timeoutIntervalForResource = 20
         configuration.httpAdditionalHeaders = ["Accept": "application/json"]
         self.baseURL = baseURL
         session = URLSession(configuration: configuration)
@@ -28,7 +28,7 @@ public struct APIClient: Sendable {
 
     private func request<Response>(for endpoint: Endpoint<Response>) -> URLRequest? {
         guard let url = endpoint.url(relativeTo: baseURL) else { return nil }
-        // A request's own 60 s default would override the session's 15 s.
+        // A request's own 60 s default would override the session's 10 s.
         var request = URLRequest(url: url, timeoutInterval: session.configuration.timeoutIntervalForRequest)
         request.httpMethod = endpoint.method.rawValue
         if let body = endpoint.body {

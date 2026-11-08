@@ -3,7 +3,9 @@ import Foundation
 /// Why a request failed, in the few kinds a screen treats differently.
 public enum APIError: Error, Equatable, Sendable {
     case offline
-    case timedOut
+    /// The server didn't answer in time, or its name, connection or TLS handshake failed: on a phone, mostly a
+    /// connection that is there but dead.
+    case unreachable
     /// The caller went away (the task was cancelled). A screen restores its previous state; it is not a failure.
     case cancelled
     case server(status: Int)
@@ -24,8 +26,8 @@ public enum APIError: Error, Equatable, Sendable {
         switch urlError.code {
         case .notConnectedToInternet, .networkConnectionLost, .dataNotAllowed, .internationalRoamingOff:
             self = .offline
-        case .timedOut:
-            self = .timedOut
+        case .timedOut, .cannotFindHost, .cannotConnectToHost, .dnsLookupFailed, .secureConnectionFailed:
+            self = .unreachable
         case .cancelled:
             self = .cancelled
         default:
@@ -37,7 +39,7 @@ public enum APIError: Error, Equatable, Sendable {
     public var message: String {
         switch self {
         case .offline: "You're offline. Check your connection and try again."
-        case .timedOut: "The server is taking too long to answer. Try again."
+        case .unreachable: "Can't reach the catalog. Check your connection and try again."
         case .server: "The server had a problem. Try again in a moment."
         case .decoding: "The server sent something this version can't read. Try again later."
         case .cancelled, .transport, .invalidRequest: "Something went wrong. Try again."

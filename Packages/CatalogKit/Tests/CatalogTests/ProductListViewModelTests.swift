@@ -63,7 +63,7 @@ struct ProductListViewModelTests {
     @Test func aFailedNextPageKeepsTheLoadedProducts() async {
         let requests = Requests()
         let viewModel = ProductListViewModel { page async throws(APIError) in
-            if await requests.record(page) == 1 { throw APIError.timedOut }
+            if await requests.record(page) == 1 { throw APIError.unreachable }
             return samplePage(skip: page.skip, count: page.limit, total: 194)
         }
         await viewModel.load()
@@ -71,7 +71,7 @@ struct ProductListViewModelTests {
         await viewModel.loadNextPage()
         #expect(
             viewModel.state
-                == State(products: .loaded(samples(0..<12)), nextPage: .failed(APIError.timedOut.message))
+                == State(products: .loaded(samples(0..<12)), nextPage: .failed(APIError.unreachable.message))
         )
 
         // Scrolling on does not retry by itself; the inline "Try again" does.
