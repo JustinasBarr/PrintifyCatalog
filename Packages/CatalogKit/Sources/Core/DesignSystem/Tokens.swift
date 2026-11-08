@@ -16,8 +16,6 @@ public enum Spacing {
 public enum Radius {
     /// Buttons and fields.
     public static let control: CGFloat = 10
-    /// A product picture inside a card.
-    public static let image: CGFloat = 12
     /// Cards and grid tiles.
     public static let card: CGFloat = 16
 }
@@ -32,7 +30,6 @@ extension Animation {
 
 /// SF Pro text styles, so Dynamic Type scales every line.
 extension Font {
-    public static let screenTitle = Font.largeTitle.weight(.bold)
     public static let sectionTitle = Font.title3.weight(.semibold)
     public static let cardTitle = Font.subheadline.weight(.medium)
     /// Digits keep one width, so a price or a count never shifts its neighbours when it changes.
@@ -74,7 +71,6 @@ extension Color {
     /// The rating star, always next to the number it stands for. Passes 3:1 for a graphic on the ground in both
     /// appearances.
     public static let rating = Color(light: 0xC98208, dark: 0xF5B544)
-    public static let skeleton = Color(light: 0xE7E9EE, dark: 0x232731)
 
     /// Stock colours, always next to words and a count, never on their own. Each passes 4.5:1 on ground,
     /// tile, field and on its own 12% tint over a tile (a chip with a faint fill). Worst measured ratio:

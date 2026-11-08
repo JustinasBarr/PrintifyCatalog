@@ -163,6 +163,80 @@ struct HomeViewModelTests {
         #expect(viewModel.state == shownState(shelves: ["beauty": .loaded(beautyShelf)]))
     }
 
+    /// A shelf's "Try again" keeps its failure on screen, its button saying "Trying…", until the answer: no
+    /// skeleton flash.
+    @Test func retryShelfKeepsTheFailureWhileItAsksAgain() async {
+        let shelf = PendingAnswer<Page<Product.Summary>>()
+        var repository = homeRepository()
+        repository.onCategoryProducts = { _, _, _ async throws(APIError) in try await shelf.value() }
+        let viewModel = HomeViewModel(repository: repository)
+        await viewModel.load()
+        let firstLoad = Task { await viewModel.shelfAppeared(beauty) }
+        await shelf.asked()
+        await shelf.respond(.failure(.offline))
+        await firstLoad.value
+        var failed = shownState(shelves: ["beauty": .failed(APIError.offline.message)])
+        #expect(viewModel.state == failed)
+
+        let retry = Task { await viewModel.retryShelf(beauty) }
+        await shelf.asked()
+        failed.retryingShelves = ["beauty"]
+        #expect(viewModel.state == failed)
+        await shelf.respond(.success(beautyShelf))
+        await retry.value
+        #expect(viewModel.state == shownState(shelves: ["beauty": .loaded(beautyShelf)]))
+    }
+
+    /// A shelf that scrolls back in while its "Try again" asks keeps "Trying…" and sends no second request.
+    @Test func aRetryingShelfThatAppearsAgainAsksOnce() async {
+        let shelf = PendingAnswer<Page<Product.Summary>>()
+        let shelfCalls = CallCount()
+        var repository = homeRepository()
+        repository.onCategoryProducts = { _, _, _ async throws(APIError) in
+            switch await shelfCalls.next() {
+            case 1: return try await shelf.value()
+            default: throw APIError.offline
+            }
+        }
+        let viewModel = HomeViewModel(repository: repository)
+        await viewModel.load()
+        await viewModel.shelfAppeared(beauty)
+        let retry = Task { await viewModel.retryShelf(beauty) }
+        await shelf.asked()
+
+        await viewModel.shelfAppeared(beauty)
+
+        var retrying = shownState(shelves: ["beauty": .failed(APIError.offline.message)])
+        retrying.retryingShelves = ["beauty"]
+        #expect(viewModel.state == retrying)
+        #expect(await shelfCalls.value == 2)
+        await shelf.respond(.success(beautyShelf))
+        await retry.value
+        #expect(viewModel.state == shownState(shelves: ["beauty": .loaded(beautyShelf)]))
+    }
+
+    /// The attention shelf's "Try again" keeps its failure on screen, its button saying "Trying…", until the answer.
+    @Test func retryAttentionKeepsTheFailureWhileItAsksAgain() async {
+        let attention = PendingAnswer<Page<Product.Summary>>()
+        var repository = homeRepository()
+        repository.onProducts = { _, _ async throws(APIError) in try await attention.value() }
+        let viewModel = HomeViewModel(repository: repository)
+        let firstLoad = Task { await viewModel.load() }
+        await attention.asked()
+        await attention.respond(.failure(.offline))
+        await firstLoad.value
+        var failed = State(categories: .loaded([beauty, groceries]), attention: .failed(APIError.offline.message))
+        #expect(viewModel.state == failed)
+
+        let retry = Task { await viewModel.retryAttention() }
+        await attention.asked()
+        failed.isRetryingAttention = true
+        #expect(viewModel.state == failed)
+        await attention.respond(.success(samplePage(skip: 0, count: 48, total: 194)))
+        await retry.value
+        #expect(viewModel.state == shownState())
+    }
+
     /// The attention page also carries the catalog's total, so a retried page fills in the search field's count.
     @Test func retryAttentionLoadsTheAttentionShelf() async {
         let attentionCalls = CallCount()

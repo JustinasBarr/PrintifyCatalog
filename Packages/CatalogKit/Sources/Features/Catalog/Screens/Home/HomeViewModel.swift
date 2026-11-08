@@ -20,6 +20,10 @@ final class HomeViewModel {
         var selectedCategories: [Product.Category] = []
         /// "Try again" is asking again; the failure stays on screen until the answer.
         var isRetrying = false
+        /// The attention shelf's "Try again" is asking again.
+        var isRetryingAttention = false
+        /// The shelves whose "Try again" is asking again, by slug.
+        var retryingShelves: Set<String> = []
     }
 
     /// The products that are low or out of stock, lowest stock first.
@@ -80,10 +84,11 @@ final class HomeViewModel {
             failures.first(where: { $0 != .cancelled })?.message ?? chosenList?.state.refreshFailure
     }
 
+    /// Asks again under the failure, so no skeleton flashes before the answer. A cancelled request leaves the failure.
     func retryAttention() async {
-        let shown = state.attention
-        state.attention = .loading
-        showAttention(await attentionResult(), over: shown)
+        state.isRetryingAttention = true
+        showAttention(await attentionResult(), over: state.attention)
+        state.isRetryingAttention = false
     }
 
     func toggleCategory(_ category: Product.Category) {
@@ -102,14 +107,20 @@ final class HomeViewModel {
     }
 
     func shelfAppeared(_ category: Product.Category) async {
+        // A shelf whose "Try again" is asking already has its request running.
+        guard !state.retryingShelves.contains(category.slug) else { return }
         switch state.shelves[category.slug] {
         case .loading, .loaded: return
         case .failed, nil: await loadShelf(category)
         }
     }
 
+    /// Asks again under the failure, so no skeleton flashes before the answer. A cancelled request leaves the failure.
     func retryShelf(_ category: Product.Category) async {
-        await loadShelf(category)
+        state.retryingShelves.insert(category.slug)
+        let result = await shelfResult(category.slug)
+        state.retryingShelves.remove(category.slug)
+        state.shelves[category.slug] = updated(state.shelves[category.slug] ?? .loading, with: result)
     }
 
     /// One chosen category shows as a grid; any other choice shows shelves.
@@ -126,8 +137,7 @@ final class HomeViewModel {
         state.shelves[category.slug] = .loading
         switch await shelfResult(category.slug) {
         case .success(let page): state.shelves[category.slug] = .loaded(page)
-        // A shelf scrolled away before it loaded has none and loads when it next scrolls in. A retried shelf is
-        // still on screen and will not appear again, so its error and "Try again" come back.
+        // A shelf scrolled away before it loaded shows what it showed and loads again when it next scrolls in.
         case .failure(.cancelled): state.shelves[category.slug] = shown
         case .failure(let error): state.shelves[category.slug] = .failed(error.message)
         }

@@ -6,18 +6,18 @@ import SwiftUI
 /// the moon and a shadow slides across it; going back, the shadow slides off and the rays come out again. A tap
 /// mid-way reverses from where it is. Under Reduce Motion the two shapes cross-fade instead. Decorative, so
 /// VoiceOver skips it: the button carries the label.
-public struct AppearanceIcon: View {
+struct AppearanceIcon: View {
     private let isDark: Bool
     private let size: CGFloat
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     /// - Parameter size: the glyph's side. The default sits in a 44 pt button.
-    public init(isDark: Bool, size: CGFloat = 22) {
+    init(isDark: Bool, size: CGFloat = 22) {
         self.isDark = isDark
         self.size = size
     }
 
-    public var body: some View {
+    var body: some View {
         glyph
             .frame(width: size, height: size)
             .accessibilityHidden(true)

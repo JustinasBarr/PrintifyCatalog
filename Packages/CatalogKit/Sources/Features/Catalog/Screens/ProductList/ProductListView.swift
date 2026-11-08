@@ -34,7 +34,7 @@ struct ProductListView: View {
             VStack(spacing: Spacing.l) {
                 if let failure = viewModel.state.refreshFailure {
                     RefreshFailedNotice(message: failure, retryIdentifier: "list-button-retryRefresh") {
-                        await viewModel.retry()
+                        await viewModel.refresh()
                     }
                     .transition(reduceMotion ? .opacity : .move(edge: .top).combined(with: .opacity))
                 }

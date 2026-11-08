@@ -71,11 +71,10 @@ final class ProductListViewModel {
         await loadFirstPage()
     }
 
-    /// Tries the request that failed again: the first page, the next page or the refresh.
+    /// Tries the request that failed again: the first page or the next page. A failed refresh has its own
+    /// "Try again", which refreshes.
     func retry() async {
-        if state.refreshFailure != nil {
-            await refresh()
-        } else if state.products.value == nil {
+        if state.products.value == nil {
             await retryFirstPage()
         } else {
             await loadNextPage()

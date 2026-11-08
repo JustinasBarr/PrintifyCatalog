@@ -18,7 +18,7 @@ enum ProductEndpoint {
         Endpoint(path: "products/category/\(slug)", query: listQuery(page, sort))
     }
 
-    /// Matches product names; the API cannot search SKUs.
+    /// Matches names and descriptions; the API cannot search SKUs.
     static func search(
         _ text: String,
         _ page: PageRequest,

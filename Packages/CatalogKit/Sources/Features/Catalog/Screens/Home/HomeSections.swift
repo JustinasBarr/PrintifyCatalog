@@ -51,6 +51,7 @@ struct HomeSections: View {
             identifier: "home-shelf-attention",
             seeAllIdentifier: "home-button-seeAllAttention",
             retryIdentifier: "home-button-retryAttention",
+            isRetrying: viewModel.state.isRetryingAttention,
             seeAll: { router.show(.attention) },
             retry: { await viewModel.retryAttention() }
         )
@@ -84,6 +85,7 @@ struct HomeSections: View {
                 identifier: "home-shelf-\(category.slug)",
                 seeAllIdentifier: "home-button-seeAll-\(category.slug)",
                 retryIdentifier: "home-button-retry-\(category.slug)",
+                isRetrying: viewModel.state.retryingShelves.contains(category.slug),
                 seeAll: { router.show(.category(category)) },
                 retry: { await viewModel.retryShelf(category) }
             )

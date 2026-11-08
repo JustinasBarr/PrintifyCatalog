@@ -99,6 +99,43 @@ struct ProductListViewModelTests {
         #expect(viewModel.state == State(products: .loaded(samples(0..<36))))
     }
 
+    /// A failed refresh has its own "Try again". The footer's asks again for the page that failed, so every row
+    /// loaded since stays.
+    @Test func aFailedNextPageAfterAFailedRefreshRetriesThatPage() async {
+        let requests = Requests()
+        let viewModel = ProductListViewModel { page async throws(APIError) in
+            switch await requests.record(page) {
+            case 1: throw APIError.offline
+            case 3: throw APIError.unreachable
+            default: return samplePage(skip: page.skip, count: page.limit, total: 194)
+            }
+        }
+        await viewModel.load()
+        await viewModel.refresh()
+        await viewModel.loadNextPage()
+        await viewModel.loadNextPage()
+        #expect(
+            viewModel.state
+                == State(
+                    products: .loaded(samples(0..<36)),
+                    nextPage: .failed(APIError.unreachable.message),
+                    refreshFailure: APIError.offline.message
+                )
+        )
+
+        await viewModel.retry()
+
+        #expect(
+            viewModel.state == State(products: .loaded(samples(0..<84)), refreshFailure: APIError.offline.message)
+        )
+        #expect(
+            await requests.pages == [
+                PageRequest(limit: 12, skip: 0), PageRequest(limit: 12, skip: 0), PageRequest(limit: 24, skip: 12),
+                PageRequest(limit: 48, skip: 36), PageRequest(limit: 48, skip: 36),
+            ]
+        )
+    }
+
     @Test func refreshReplacesTheListAndPagesFromItsStart() async {
         let requests = Requests()
         let viewModel = ProductListViewModel { page in

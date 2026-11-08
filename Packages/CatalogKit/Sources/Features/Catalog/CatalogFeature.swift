@@ -4,7 +4,7 @@ import Networking
 /// screen's view model, so views never reach the repository themselves.
 @MainActor
 public final class CatalogFeature {
-    let repository: any ProductRepositoryProtocol
+    private let repository: any ProductRepositoryProtocol
     let router = CatalogRouter()
 
     /// The catalog from the products API through `client`.

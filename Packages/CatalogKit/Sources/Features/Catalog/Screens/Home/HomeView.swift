@@ -36,7 +36,11 @@ struct HomeView: View {
         .background(Color.ground)
         .navigationTitle("Products")
         .navigationBarTitleDisplayMode(.inline)
-        .refreshable { await viewModel.refresh() }
+        .refreshable {
+            // Search results cover Home, so a pull over them must not reload Home out of sight.
+            guard search.state.results == nil else { return }
+            await viewModel.refresh()
+        }
         .task { await viewModel.load() }
     }
 

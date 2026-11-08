@@ -12,6 +12,8 @@ struct ProductShelf: View {
     let identifier: String
     let seeAllIdentifier: String
     let retryIdentifier: String
+    /// "Try again" is asking again, under the failure.
+    var isRetrying = false
     let seeAll: () -> Void
     let retry: () async -> Void
     @Environment(CatalogRouter.self) private var router
@@ -104,12 +106,17 @@ struct ProductShelf: View {
                     .font(.footnote)
                     .foregroundStyle(Color.ink2)
                     .multilineTextAlignment(.center)
-                Button("Try again") { Task { await retry() } }
-                    .font(.subheadline.weight(.semibold))
-                    .buttonStyle(.bordered)
-                    .buttonBorderShape(.capsule)
-                    .tint(Color.action)
-                    .accessibilityIdentifier(retryIdentifier)
+                Button {
+                    Task { await retry() }
+                } label: {
+                    RetryLabel(isRetrying: isRetrying)
+                }
+                .font(.subheadline.weight(.semibold))
+                .disabled(isRetrying)
+                .buttonStyle(.bordered)
+                .buttonBorderShape(.capsule)
+                .tint(Color.action)
+                .accessibilityIdentifier(retryIdentifier)
             }
             .padding(.horizontal, Spacing.xl)
         case .loaded(let products) where products.isEmpty:
